@@ -1,0 +1,220 @@
+{
+  "domains": [
+    {
+      "domain": "apnews.com",
+      "bias": "Center",
+      "factual_reporting": "Very High"
+    },
+    {
+      "domain": "reuters.com",
+      "bias": "Center",
+      "factual_reporting": "Very High"
+    },
+    {
+      "domain": "wsj.com",
+      "bias": "Center",
+      "factual_reporting": "High"
+    },
+    {
+      "domain": "bbc.com",
+      "bias": "Center",
+      "factual_reporting": "High"
+    },
+    {
+      "domain": "npr.org",
+      "bias": "Lean Left",
+      "factual_reporting": "High"
+    },
+    {
+      "domain": "nytimes.com",
+      "bias": "Lean Left",
+      "factual_reporting": "High"
+    },
+    {
+      "domain": "washingtonpost.com",
+      "bias": "Lean Left",
+      "factual_reporting": "High"
+    },
+    {
+      "domain": "theguardian.com",
+      "bias": "Lean Left",
+      "factual_reporting": "High"
+    },
+    {
+      "domain": "nbcnews.com",
+      "bias": "Lean Left",
+      "factual_reporting": "High"
+    },
+    {
+      "domain": "cbsnews.com",
+      "bias": "Lean Left",
+      "factual_reporting": "High"
+    },
+    {
+      "domain": "abcnews.go.com",
+      "bias": "Lean Left",
+      "factual_reporting": "High"
+    },
+    {
+      "domain": "cnn.com",
+      "bias": "Left",
+      "factual_reporting": "Mixed"
+    },
+    {
+      "domain": "msnbc.com",
+      "bias": "Left",
+      "factual_reporting": "Mixed"
+    },
+    {
+      "domain": "huffpost.com",
+      "bias": "Left",
+      "factual_reporting": "Mixed"
+    },
+    {
+      "domain": "vox.com",
+      "bias": "Left",
+      "factual_reporting": "Mixed"
+    },
+    {
+      "domain": "foxnews.com",
+      "bias": "Right",
+      "factual_reporting": "Mixed"
+    },
+    {
+      "domain": "nypost.com",
+      "bias": "Lean Right",
+      "factual_reporting": "Mixed"
+    },
+    {
+      "domain": "forbes.com",
+      "bias": "Center",
+      "factual_reporting": "High"
+    },
+    {
+      "domain": "thehill.com",
+      "bias": "Center",
+      "factual_reporting": "High"
+    },
+    {
+      "domain": "politico.com",
+      "bias": "Lean Left",
+      "factual_reporting": "High"
+    },
+    {
+      "domain": "usatoday.com",
+      "bias": "Lean Left",
+      "factual_reporting": "High"
+    },
+    {
+      "domain": "time.com",
+      "bias": "Lean Left",
+      "factual_reporting": "High"
+    },
+    {
+      "domain": "newsweek.com",
+      "bias": "Center",
+      "factual_reporting": "Mixed"
+    },
+    {
+      "domain": "breitbart.com",
+      "bias": "Right",
+      "factual_reporting": "Low"
+    },
+    {
+      "domain": "dailymail.co.uk",
+      "bias": "Right",
+      "factual_reporting": "Mixed"
+    },
+    {
+      "domain": "telegraph.co.uk",
+      "bias": "Lean Right",
+      "factual_reporting": "High"
+    },
+    {
+      "domain": "theatlantic.com",
+      "bias": "Lean Left",
+      "factual_reporting": "High"
+    },
+    {
+      "domain": "economist.com",
+      "bias": "Lean Left",
+      "factual_reporting": "High"
+    },
+    {
+      "domain": "aljazeera.com",
+      "bias": "Center",
+      "factual_reporting": "High"
+    },
+    {
+      "domain": "snopes.com",
+      "bias": "Center",
+      "factual_reporting": "Very High"
+    },
+    {
+      "domain": "politifact.com",
+      "bias": "Center",
+      "factual_reporting": "Very High"
+    },
+    {
+      "domain": "factcheck.org",
+      "bias": "Center",
+      "factual_reporting": "Very High"
+    },
+    {
+      "domain": "c-span.org",
+      "bias": "Center",
+      "factual_reporting": "Very High"
+    },
+    {
+      "domain": "thehindu.com",
+      "bias": "Lean Left",
+      "factual_reporting": "High"
+    },
+    {
+      "domain": "timesofindia.indiatimes.com",
+      "bias": "Center-Right",
+      "factual_reporting": "Mixed"
+    },
+    {
+      "domain": "indianexpress.com",
+      "bias": "Center",
+      "factual_reporting": "High"
+    },
+    {
+      "domain": "hindustantimes.com",
+      "bias": "Center",
+      "factual_reporting": "High"
+    },
+    {
+      "domain": "ndtv.com",
+      "bias": "Lean Left",
+      "factual_reporting": "Mixed"
+    },
+    {
+      "domain": "indiatoday.in",
+      "bias": "Center-Right",
+      "factual_reporting": "Mixed"
+    },
+    {
+      "domain": "republicworld.com",
+      "bias": "Right",
+      "factual_reporting": "Mixed"
+    },
+    {
+      "domain": "thewire.in",
+      "bias": "Left",
+      "factual_reporting": "High"
+    },
+    {
+      "domain": "firstpost.com",
+      "bias": "Center-Right",
+      "factual_reporting": "Mixed"
+    },
+    {
+      "domain": "opindia.com",
+      "bias": "Right",
+      "factual_reporting": "Low"
+    }
+  ]
+}
+

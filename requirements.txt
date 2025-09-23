@@ -1,0 +1,25 @@
+# --- Core Web Framework ---
+fastapi
+uvicorn[standard]
+python-multipart
+
+# --- Asynchronous Background Tasks ---
+celery
+redis
+gevent
+
+# --- NLP and Machine Learning ---
+transformers
+torch
+spacy
+
+# --- Database and Configuration ---
+SQLAlchemy
+python-dotenv
+
+# --- Data Parsing and Web Scraping ---
+python-docx
+PyMuPDF
+newspaper3k
+requests
+beautifulsoup4
