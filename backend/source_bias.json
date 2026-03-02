@@ -3,218 +3,740 @@
     {
       "domain": "apnews.com",
       "bias": "Center",
-      "factual_reporting": "Very High"
+      "political_leaning_score": 0.0,
+      "factual_reporting": "Very High",
+      "country": "US",
+      "description": "Non-profit news agency owned by US newspapers",
+      "logo_url": "https://www.google.com/s2/favicons?domain=apnews.com&sz=64"
     },
     {
       "domain": "reuters.com",
       "bias": "Center",
-      "factual_reporting": "Very High"
+      "political_leaning_score": 0.0,
+      "factual_reporting": "Very High",
+      "country": "UK",
+      "description": "International news organization, one of the world's largest wire services",
+      "logo_url": "https://www.google.com/s2/favicons?domain=reuters.com&sz=64"
     },
     {
       "domain": "wsj.com",
-      "bias": "Center",
-      "factual_reporting": "High"
+      "bias": "Center-Right",
+      "political_leaning_score": 0.3,
+      "factual_reporting": "High",
+      "country": "US",
+      "description": "Business-focused daily newspaper with center-right editorial stance",
+      "logo_url": "https://www.google.com/s2/favicons?domain=wsj.com&sz=64"
     },
     {
       "domain": "bbc.com",
       "bias": "Center",
-      "factual_reporting": "High"
+      "political_leaning_score": -0.05,
+      "factual_reporting": "High",
+      "country": "UK",
+      "description": "UK's national public broadcaster",
+      "logo_url": "https://www.google.com/s2/favicons?domain=bbc.com&sz=64"
+    },
+    {
+      "domain": "bbc.co.uk",
+      "bias": "Center",
+      "political_leaning_score": -0.05,
+      "factual_reporting": "High",
+      "country": "UK",
+      "description": "UK's national public broadcaster",
+      "logo_url": "https://www.google.com/s2/favicons?domain=bbc.co.uk&sz=64"
     },
     {
       "domain": "npr.org",
       "bias": "Lean Left",
-      "factual_reporting": "High"
+      "political_leaning_score": -0.35,
+      "factual_reporting": "High",
+      "country": "US",
+      "description": "Publicly funded American radio news network",
+      "logo_url": "https://www.google.com/s2/favicons?domain=npr.org&sz=64"
     },
     {
       "domain": "nytimes.com",
       "bias": "Lean Left",
-      "factual_reporting": "High"
+      "political_leaning_score": -0.4,
+      "factual_reporting": "High",
+      "country": "US",
+      "description": "Influential US newspaper with a liberal editorial tradition",
+      "logo_url": "https://www.google.com/s2/favicons?domain=nytimes.com&sz=64"
     },
     {
       "domain": "washingtonpost.com",
       "bias": "Lean Left",
-      "factual_reporting": "High"
+      "political_leaning_score": -0.45,
+      "factual_reporting": "High",
+      "country": "US",
+      "description": "US newspaper headquartered near political power, liberal-leaning",
+      "logo_url": "https://www.google.com/s2/favicons?domain=washingtonpost.com&sz=64"
     },
     {
       "domain": "theguardian.com",
-      "bias": "Lean Left",
-      "factual_reporting": "High"
+      "bias": "Left",
+      "political_leaning_score": -0.55,
+      "factual_reporting": "High",
+      "country": "UK",
+      "description": "British newspaper with progressive editorial stance",
+      "logo_url": "https://www.google.com/s2/favicons?domain=theguardian.com&sz=64"
     },
     {
       "domain": "nbcnews.com",
       "bias": "Lean Left",
-      "factual_reporting": "High"
+      "political_leaning_score": -0.38,
+      "factual_reporting": "High",
+      "country": "US",
+      "description": "Television network news division with liberal lean",
+      "logo_url": "https://www.google.com/s2/favicons?domain=nbcnews.com&sz=64"
     },
     {
       "domain": "cbsnews.com",
       "bias": "Lean Left",
-      "factual_reporting": "High"
+      "political_leaning_score": -0.35,
+      "factual_reporting": "High",
+      "country": "US",
+      "description": "Broadcast TV news with center-left lean",
+      "logo_url": "https://www.google.com/s2/favicons?domain=cbsnews.com&sz=64"
     },
     {
       "domain": "abcnews.go.com",
       "bias": "Lean Left",
-      "factual_reporting": "High"
+      "political_leaning_score": -0.38,
+      "factual_reporting": "High",
+      "country": "US",
+      "description": "Major American broadcast network news",
+      "logo_url": "https://www.google.com/s2/favicons?domain=abcnews.go.com&sz=64"
     },
     {
       "domain": "cnn.com",
       "bias": "Left",
-      "factual_reporting": "Mixed"
+      "political_leaning_score": -0.55,
+      "factual_reporting": "Mixed",
+      "country": "US",
+      "description": "Cable news network known for 24-hour news cycle",
+      "logo_url": "https://www.google.com/s2/favicons?domain=cnn.com&sz=64"
     },
     {
       "domain": "msnbc.com",
       "bias": "Left",
-      "factual_reporting": "Mixed"
+      "political_leaning_score": -0.7,
+      "factual_reporting": "Mixed",
+      "country": "US",
+      "description": "Cable news channel with strong progressive commentary",
+      "logo_url": "https://www.google.com/s2/favicons?domain=msnbc.com&sz=64"
     },
     {
       "domain": "huffpost.com",
       "bias": "Left",
-      "factual_reporting": "Mixed"
+      "political_leaning_score": -0.65,
+      "factual_reporting": "Mixed",
+      "country": "US",
+      "description": "Digital news and opinion platform with strong liberal viewpoint",
+      "logo_url": "https://www.google.com/s2/favicons?domain=huffpost.com&sz=64"
     },
     {
       "domain": "vox.com",
       "bias": "Left",
-      "factual_reporting": "Mixed"
+      "political_leaning_score": -0.6,
+      "factual_reporting": "High",
+      "country": "US",
+      "description": "Explanatory journalism outlet with progressive slant",
+      "logo_url": "https://www.google.com/s2/favicons?domain=vox.com&sz=64"
     },
     {
       "domain": "foxnews.com",
       "bias": "Right",
-      "factual_reporting": "Mixed"
+      "political_leaning_score": 0.7,
+      "factual_reporting": "Mixed",
+      "country": "US",
+      "description": "Major conservative cable news network",
+      "logo_url": "https://www.google.com/s2/favicons?domain=foxnews.com&sz=64"
     },
     {
       "domain": "nypost.com",
       "bias": "Lean Right",
-      "factual_reporting": "Mixed"
+      "political_leaning_score": 0.45,
+      "factual_reporting": "Mixed",
+      "country": "US",
+      "description": "New York tabloid with conservative editorial tendency",
+      "logo_url": "https://www.google.com/s2/favicons?domain=nypost.com&sz=64"
     },
     {
       "domain": "forbes.com",
       "bias": "Center",
-      "factual_reporting": "High"
+      "political_leaning_score": 0.1,
+      "factual_reporting": "High",
+      "country": "US",
+      "description": "Business magazine covering finance, tech, and policy",
+      "logo_url": "https://www.google.com/s2/favicons?domain=forbes.com&sz=64"
     },
     {
       "domain": "thehill.com",
       "bias": "Center",
-      "factual_reporting": "High"
+      "political_leaning_score": 0.05,
+      "factual_reporting": "High",
+      "country": "US",
+      "description": "Nonpartisan political news focused on Capitol Hill",
+      "logo_url": "https://www.google.com/s2/favicons?domain=thehill.com&sz=64"
     },
     {
       "domain": "politico.com",
       "bias": "Lean Left",
-      "factual_reporting": "High"
+      "political_leaning_score": -0.28,
+      "factual_reporting": "High",
+      "country": "US",
+      "description": "Political journalism focused on US politics and policy",
+      "logo_url": "https://www.google.com/s2/favicons?domain=politico.com&sz=64"
     },
     {
       "domain": "usatoday.com",
       "bias": "Lean Left",
-      "factual_reporting": "High"
+      "political_leaning_score": -0.3,
+      "factual_reporting": "High",
+      "country": "US",
+      "description": "Mass-market American daily newspaper",
+      "logo_url": "https://www.google.com/s2/favicons?domain=usatoday.com&sz=64"
     },
     {
       "domain": "time.com",
       "bias": "Lean Left",
-      "factual_reporting": "High"
+      "political_leaning_score": -0.35,
+      "factual_reporting": "High",
+      "country": "US",
+      "description": "American weekly news magazine",
+      "logo_url": "https://www.google.com/s2/favicons?domain=time.com&sz=64"
     },
     {
       "domain": "newsweek.com",
       "bias": "Center",
-      "factual_reporting": "Mixed"
+      "political_leaning_score": -0.1,
+      "factual_reporting": "Mixed",
+      "country": "US",
+      "description": "American magazine and news website",
+      "logo_url": "https://www.google.com/s2/favicons?domain=newsweek.com&sz=64"
     },
     {
       "domain": "breitbart.com",
       "bias": "Right",
-      "factual_reporting": "Low"
+      "political_leaning_score": 0.85,
+      "factual_reporting": "Low",
+      "country": "US",
+      "description": "Far-right American news and opinion website",
+      "logo_url": "https://www.google.com/s2/favicons?domain=breitbart.com&sz=64"
     },
     {
       "domain": "dailymail.co.uk",
       "bias": "Right",
-      "factual_reporting": "Mixed"
+      "political_leaning_score": 0.55,
+      "factual_reporting": "Mixed",
+      "country": "UK",
+      "description": "British tabloid newspaper with right-leaning editorial stance",
+      "logo_url": "https://www.google.com/s2/favicons?domain=dailymail.co.uk&sz=64"
     },
     {
       "domain": "telegraph.co.uk",
       "bias": "Lean Right",
-      "factual_reporting": "High"
+      "political_leaning_score": 0.42,
+      "factual_reporting": "High",
+      "country": "UK",
+      "description": "British broadsheet with conservative tradition",
+      "logo_url": "https://www.google.com/s2/favicons?domain=telegraph.co.uk&sz=64"
     },
     {
       "domain": "theatlantic.com",
       "bias": "Lean Left",
-      "factual_reporting": "High"
+      "political_leaning_score": -0.4,
+      "factual_reporting": "High",
+      "country": "US",
+      "description": "American magazine covering culture, politics, and ideas",
+      "logo_url": "https://www.google.com/s2/favicons?domain=theatlantic.com&sz=64"
     },
     {
       "domain": "economist.com",
-      "bias": "Lean Left",
-      "factual_reporting": "High"
+      "bias": "Center",
+      "political_leaning_score": -0.15,
+      "factual_reporting": "High",
+      "country": "UK",
+      "description": "Internationally respected weekly covering economics and world affairs",
+      "logo_url": "https://www.google.com/s2/favicons?domain=economist.com&sz=64"
     },
     {
       "domain": "aljazeera.com",
       "bias": "Center",
-      "factual_reporting": "High"
+      "political_leaning_score": -0.15,
+      "factual_reporting": "High",
+      "country": "QA",
+      "description": "Qatari state-funded international news network",
+      "logo_url": "https://www.google.com/s2/favicons?domain=aljazeera.com&sz=64"
     },
     {
       "domain": "snopes.com",
       "bias": "Center",
-      "factual_reporting": "Very High"
+      "political_leaning_score": -0.05,
+      "factual_reporting": "Very High",
+      "country": "US",
+      "description": "Fact-checking website covering hoaxes and misinformation",
+      "logo_url": "https://www.google.com/s2/favicons?domain=snopes.com&sz=64"
     },
     {
       "domain": "politifact.com",
       "bias": "Center",
-      "factual_reporting": "Very High"
+      "political_leaning_score": -0.1,
+      "factual_reporting": "Very High",
+      "country": "US",
+      "description": "Pulitzer Prize-winning fact-checking website",
+      "logo_url": "https://www.google.com/s2/favicons?domain=politifact.com&sz=64"
     },
     {
       "domain": "factcheck.org",
       "bias": "Center",
-      "factual_reporting": "Very High"
+      "political_leaning_score": 0.0,
+      "factual_reporting": "Very High",
+      "country": "US",
+      "description": "Non-partisan fact-checking project of the Annenberg Public Policy Center",
+      "logo_url": "https://www.google.com/s2/favicons?domain=factcheck.org&sz=64"
     },
     {
       "domain": "c-span.org",
       "bias": "Center",
-      "factual_reporting": "Very High"
+      "political_leaning_score": 0.0,
+      "factual_reporting": "Very High",
+      "country": "US",
+      "description": "Public affairs television network providing unfiltered coverage",
+      "logo_url": "https://www.google.com/s2/favicons?domain=c-span.org&sz=64"
     },
     {
       "domain": "thehindu.com",
       "bias": "Lean Left",
-      "factual_reporting": "High"
+      "political_leaning_score": -0.35,
+      "factual_reporting": "High",
+      "country": "IN",
+      "description": "Indian English-language daily with liberal tradition",
+      "logo_url": "https://www.google.com/s2/favicons?domain=thehindu.com&sz=64"
     },
     {
       "domain": "timesofindia.indiatimes.com",
       "bias": "Center-Right",
-      "factual_reporting": "Mixed"
+      "political_leaning_score": 0.25,
+      "factual_reporting": "Mixed",
+      "country": "IN",
+      "description": "India's largest English-language daily newspaper",
+      "logo_url": "https://www.google.com/s2/favicons?domain=timesofindia.indiatimes.com&sz=64"
     },
     {
       "domain": "indianexpress.com",
       "bias": "Center",
-      "factual_reporting": "High"
+      "political_leaning_score": -0.1,
+      "factual_reporting": "High",
+      "country": "IN",
+      "description": "Indian English-language daily known for investigative reporting",
+      "logo_url": "https://www.google.com/s2/favicons?domain=indianexpress.com&sz=64"
     },
     {
       "domain": "hindustantimes.com",
       "bias": "Center",
-      "factual_reporting": "High"
+      "political_leaning_score": 0.05,
+      "factual_reporting": "High",
+      "country": "IN",
+      "description": "Indian English-language daily newspaper",
+      "logo_url": "https://www.google.com/s2/favicons?domain=hindustantimes.com&sz=64"
     },
     {
       "domain": "ndtv.com",
       "bias": "Lean Left",
-      "factual_reporting": "Mixed"
+      "political_leaning_score": -0.3,
+      "factual_reporting": "Mixed",
+      "country": "IN",
+      "description": "Indian television news network",
+      "logo_url": "https://www.google.com/s2/favicons?domain=ndtv.com&sz=64"
     },
     {
       "domain": "indiatoday.in",
       "bias": "Center-Right",
-      "factual_reporting": "Mixed"
+      "political_leaning_score": 0.2,
+      "factual_reporting": "Mixed",
+      "country": "IN",
+      "description": "Indian news magazine and digital media brand",
+      "logo_url": "https://www.google.com/s2/favicons?domain=indiatoday.in&sz=64"
     },
     {
       "domain": "republicworld.com",
       "bias": "Right",
-      "factual_reporting": "Mixed"
+      "political_leaning_score": 0.65,
+      "factual_reporting": "Mixed",
+      "country": "IN",
+      "description": "Indian English news channel known for right-wing commentary",
+      "logo_url": "https://www.google.com/s2/favicons?domain=republicworld.com&sz=64"
     },
     {
       "domain": "thewire.in",
       "bias": "Left",
-      "factual_reporting": "High"
+      "political_leaning_score": -0.6,
+      "factual_reporting": "High",
+      "country": "IN",
+      "description": "Indian independent investigative news site with progressive slant",
+      "logo_url": "https://www.google.com/s2/favicons?domain=thewire.in&sz=64"
     },
     {
       "domain": "firstpost.com",
       "bias": "Center-Right",
-      "factual_reporting": "Mixed"
+      "political_leaning_score": 0.3,
+      "factual_reporting": "Mixed",
+      "country": "IN",
+      "description": "Indian digital news platform owned by Network18",
+      "logo_url": "https://www.google.com/s2/favicons?domain=firstpost.com&sz=64"
     },
     {
       "domain": "opindia.com",
       "bias": "Right",
-      "factual_reporting": "Low"
+      "political_leaning_score": 0.8,
+      "factual_reporting": "Low",
+      "country": "IN",
+      "description": "Indian right-wing news website with partisan commentary",
+      "logo_url": "https://www.google.com/s2/favicons?domain=opindia.com&sz=64"
+    },
+    {
+      "domain": "slate.com",
+      "bias": "Left",
+      "political_leaning_score": -0.6,
+      "factual_reporting": "High",
+      "country": "US",
+      "description": "Online magazine covering politics and culture from a liberal perspective",
+      "logo_url": "https://www.google.com/s2/favicons?domain=slate.com&sz=64"
+    },
+    {
+      "domain": "thenation.com",
+      "bias": "Left",
+      "political_leaning_score": -0.75,
+      "factual_reporting": "High",
+      "country": "US",
+      "description": "Progressive American magazine covering politics and culture",
+      "logo_url": "https://www.google.com/s2/favicons?domain=thenation.com&sz=64"
+    },
+    {
+      "domain": "motherjones.com",
+      "bias": "Left",
+      "political_leaning_score": -0.72,
+      "factual_reporting": "High",
+      "country": "US",
+      "description": "Nonprofit progressive investigative journalism outlet",
+      "logo_url": "https://www.google.com/s2/favicons?domain=motherjones.com&sz=64"
+    },
+    {
+      "domain": "nationalreview.com",
+      "bias": "Right",
+      "political_leaning_score": 0.68,
+      "factual_reporting": "High",
+      "country": "US",
+      "description": "Conservative American political magazine",
+      "logo_url": "https://www.google.com/s2/favicons?domain=nationalreview.com&sz=64"
+    },
+    {
+      "domain": "weeklystandard.com",
+      "bias": "Right",
+      "political_leaning_score": 0.65,
+      "factual_reporting": "High",
+      "country": "US",
+      "description": "Conservative American political magazine (now defunct but historically notable)",
+      "logo_url": "https://www.google.com/s2/favicons?domain=weeklystandard.com&sz=64"
+    },
+    {
+      "domain": "theblaze.com",
+      "bias": "Right",
+      "political_leaning_score": 0.78,
+      "factual_reporting": "Mixed",
+      "country": "US",
+      "description": "Conservative news and entertainment network",
+      "logo_url": "https://www.google.com/s2/favicons?domain=theblaze.com&sz=64"
+    },
+    {
+      "domain": "dailywire.com",
+      "bias": "Right",
+      "political_leaning_score": 0.82,
+      "factual_reporting": "Mixed",
+      "country": "US",
+      "description": "Conservative American news and opinion website",
+      "logo_url": "https://www.google.com/s2/favicons?domain=dailywire.com&sz=64"
+    },
+    {
+      "domain": "thedailybeast.com",
+      "bias": "Left",
+      "political_leaning_score": -0.58,
+      "factual_reporting": "Mixed",
+      "country": "US",
+      "description": "American liberal online news and opinion outlet",
+      "logo_url": "https://www.google.com/s2/favicons?domain=thedailybeast.com&sz=64"
+    },
+    {
+      "domain": "axios.com",
+      "bias": "Center",
+      "political_leaning_score": -0.08,
+      "factual_reporting": "High",
+      "country": "US",
+      "description": "American digital news outlet known for concise format",
+      "logo_url": "https://www.google.com/s2/favicons?domain=axios.com&sz=64"
+    },
+    {
+      "domain": "propublica.org",
+      "bias": "Lean Left",
+      "political_leaning_score": -0.42,
+      "factual_reporting": "Very High",
+      "country": "US",
+      "description": "Nonprofit investigative journalism newsroom",
+      "logo_url": "https://www.google.com/s2/favicons?domain=propublica.org&sz=64"
+    },
+    {
+      "domain": "theintercept.com",
+      "bias": "Left",
+      "political_leaning_score": -0.68,
+      "factual_reporting": "High",
+      "country": "US",
+      "description": "Progressive independent journalism platform",
+      "logo_url": "https://www.google.com/s2/favicons?domain=theintercept.com&sz=64"
+    },
+    {
+      "domain": "buzzfeednews.com",
+      "bias": "Lean Left",
+      "political_leaning_score": -0.42,
+      "factual_reporting": "Mixed",
+      "country": "US",
+      "description": "Digital media that expanded into investigative journalism",
+      "logo_url": "https://www.google.com/s2/favicons?domain=buzzfeednews.com&sz=64"
+    },
+    {
+      "domain": "reason.com",
+      "bias": "Center-Right",
+      "political_leaning_score": 0.35,
+      "factual_reporting": "High",
+      "country": "US",
+      "description": "Libertarian magazine covering politics, culture, and ideas",
+      "logo_url": "https://www.google.com/s2/favicons?domain=reason.com&sz=64"
+    },
+    {
+      "domain": "ft.com",
+      "bias": "Center",
+      "political_leaning_score": 0.08,
+      "factual_reporting": "High",
+      "country": "UK",
+      "description": "British international business newspaper",
+      "logo_url": "https://www.google.com/s2/favicons?domain=ft.com&sz=64"
+    },
+    {
+      "domain": "independent.co.uk",
+      "bias": "Lean Left",
+      "political_leaning_score": -0.38,
+      "factual_reporting": "High",
+      "country": "UK",
+      "description": "British online newspaper with liberal perspective",
+      "logo_url": "https://www.google.com/s2/favicons?domain=independent.co.uk&sz=64"
+    },
+    {
+      "domain": "thesun.co.uk",
+      "bias": "Right",
+      "political_leaning_score": 0.55,
+      "factual_reporting": "Mixed",
+      "country": "UK",
+      "description": "British mass-circulation tabloid with conservative leanings",
+      "logo_url": "https://www.google.com/s2/favicons?domain=thesun.co.uk&sz=64"
+    },
+    {
+      "domain": "mirror.co.uk",
+      "bias": "Left",
+      "political_leaning_score": -0.52,
+      "factual_reporting": "Mixed",
+      "country": "UK",
+      "description": "British tabloid with traditional Labour-supporting history",
+      "logo_url": "https://www.google.com/s2/favicons?domain=mirror.co.uk&sz=64"
+    },
+    {
+      "domain": "spectator.co.uk",
+      "bias": "Right",
+      "political_leaning_score": 0.6,
+      "factual_reporting": "High",
+      "country": "UK",
+      "description": "British conservative political magazine",
+      "logo_url": "https://www.google.com/s2/favicons?domain=spectator.co.uk&sz=64"
+    },
+    {
+      "domain": "dw.com",
+      "bias": "Center",
+      "political_leaning_score": -0.08,
+      "factual_reporting": "High",
+      "country": "DE",
+      "description": "German international public broadcaster",
+      "logo_url": "https://www.google.com/s2/favicons?domain=dw.com&sz=64"
+    },
+    {
+      "domain": "france24.com",
+      "bias": "Center",
+      "political_leaning_score": -0.1,
+      "factual_reporting": "High",
+      "country": "FR",
+      "description": "French international news channel",
+      "logo_url": "https://www.google.com/s2/favicons?domain=france24.com&sz=64"
+    },
+    {
+      "domain": "rt.com",
+      "bias": "Right",
+      "political_leaning_score": 0.75,
+      "factual_reporting": "Low",
+      "country": "RU",
+      "description": "Russian state-funded international television network",
+      "logo_url": "https://www.google.com/s2/favicons?domain=rt.com&sz=64"
+    },
+    {
+      "domain": "scmp.com",
+      "bias": "Center",
+      "political_leaning_score": 0.1,
+      "factual_reporting": "High",
+      "country": "HK",
+      "description": "South China Morning Post – Hong Kong English-language newspaper",
+      "logo_url": "https://www.google.com/s2/favicons?domain=scmp.com&sz=64"
+    },
+    {
+      "domain": "theconversation.com",
+      "bias": "Lean Left",
+      "political_leaning_score": -0.32,
+      "factual_reporting": "Very High",
+      "country": "AU",
+      "description": "Academic journalism outlet publishing expert analysis",
+      "logo_url": "https://www.google.com/s2/favicons?domain=theconversation.com&sz=64"
+    },
+    {
+      "domain": "msn.com",
+      "bias": "Center",
+      "political_leaning_score": -0.05,
+      "factual_reporting": "Mixed",
+      "country": "US",
+      "description": "Microsoft's news aggregation portal",
+      "logo_url": "https://www.google.com/s2/favicons?domain=msn.com&sz=64"
+    },
+    {
+      "domain": "thetimes.co.uk",
+      "bias": "Center-Right",
+      "political_leaning_score": 0.28,
+      "factual_reporting": "High",
+      "country": "UK",
+      "description": "Influential British daily broadsheet",
+      "logo_url": "https://www.google.com/s2/favicons?domain=thetimes.co.uk&sz=64"
+    },
+    {
+      "domain": "newscientist.com",
+      "bias": "Center",
+      "political_leaning_score": -0.05,
+      "factual_reporting": "Very High",
+      "country": "UK",
+      "description": "Weekly science and technology magazine",
+      "logo_url": "https://www.google.com/s2/favicons?domain=newscientist.com&sz=64"
+    },
+    {
+      "domain": "scientificamerican.com",
+      "bias": "Lean Left",
+      "political_leaning_score": -0.25,
+      "factual_reporting": "Very High",
+      "country": "US",
+      "description": "Popular science magazine with high factual standards",
+      "logo_url": "https://www.google.com/s2/favicons?domain=scientificamerican.com&sz=64"
+    },
+    {
+      "domain": "wired.com",
+      "bias": "Lean Left",
+      "political_leaning_score": -0.3,
+      "factual_reporting": "High",
+      "country": "US",
+      "description": "Technology and culture magazine with liberal tech-optimist perspective",
+      "logo_url": "https://www.google.com/s2/favicons?domain=wired.com&sz=64"
+    },
+    {
+      "domain": "techcrunch.com",
+      "bias": "Center",
+      "political_leaning_score": -0.1,
+      "factual_reporting": "High",
+      "country": "US",
+      "description": "Technology news and analysis",
+      "logo_url": "https://www.google.com/s2/favicons?domain=techcrunch.com&sz=64"
+    },
+    {
+      "domain": "theverge.com",
+      "bias": "Lean Left",
+      "political_leaning_score": -0.28,
+      "factual_reporting": "High",
+      "country": "US",
+      "description": "Technology and culture news website",
+      "logo_url": "https://www.google.com/s2/favicons?domain=theverge.com&sz=64"
+    },
+    {
+      "domain": "washingtonexaminer.com",
+      "bias": "Right",
+      "political_leaning_score": 0.62,
+      "factual_reporting": "Mixed",
+      "country": "US",
+      "description": "American conservative news website and magazine",
+      "logo_url": "https://www.google.com/s2/favicons?domain=washingtonexaminer.com&sz=64"
+    },
+    {
+      "domain": "thenewamerican.com",
+      "bias": "Right",
+      "political_leaning_score": 0.82,
+      "factual_reporting": "Low",
+      "country": "US",
+      "description": "Far-right American news magazine",
+      "logo_url": "https://www.google.com/s2/favicons?domain=thenewamerican.com&sz=64"
+    },
+    {
+      "domain": "mediaite.com",
+      "bias": "Center",
+      "political_leaning_score": -0.12,
+      "factual_reporting": "Mixed",
+      "country": "US",
+      "description": "Media criticism and news site covering media industry",
+      "logo_url": "https://www.google.com/s2/favicons?domain=mediaite.com&sz=64"
+    },
+    {
+      "domain": "businessinsider.com",
+      "bias": "Lean Left",
+      "political_leaning_score": -0.3,
+      "factual_reporting": "Mixed",
+      "country": "US",
+      "description": "American business and technology news website",
+      "logo_url": "https://www.google.com/s2/favicons?domain=businessinsider.com&sz=64"
+    },
+    {
+      "domain": "rawstory.com",
+      "bias": "Left",
+      "political_leaning_score": -0.78,
+      "factual_reporting": "Mixed",
+      "country": "US",
+      "description": "Progressive American news and political opinion website",
+      "logo_url": "https://www.google.com/s2/favicons?domain=rawstory.com&sz=64"
+    },
+    {
+      "domain": "commondreams.org",
+      "bias": "Left",
+      "political_leaning_score": -0.8,
+      "factual_reporting": "Mixed",
+      "country": "US",
+      "description": "Progressive news and opinion website",
+      "logo_url": "https://www.google.com/s2/favicons?domain=commondreams.org&sz=64"
+    },
+    {
+      "domain": "foreignpolicy.com",
+      "bias": "Lean Left",
+      "political_leaning_score": -0.28,
+      "factual_reporting": "High",
+      "country": "US",
+      "description": "International affairs magazine covering foreign policy",
+      "logo_url": "https://www.google.com/s2/favicons?domain=foreignpolicy.com&sz=64"
+    },
+    {
+      "domain": "foreignaffairs.com",
+      "bias": "Center",
+      "political_leaning_score": -0.05,
+      "factual_reporting": "Very High",
+      "country": "US",
+      "description": "Flagship publication of the Council on Foreign Relations",
+      "logo_url": "https://www.google.com/s2/favicons?domain=foreignaffairs.com&sz=64"
     }
   ]
 }
-

@@ -20,5 +20,10 @@ verified_articles.db
 # Pytest cache
 .pytest_cache/
 
-# Environment variables file (VERY IMPORTANT)
+# Environment variables file (VERY IMPORTANT — contains secrets)
 .env
+
+# Frontend build artifacts and dependencies
+frontend/node_modules/
+frontend/dist/
+frontend/.env

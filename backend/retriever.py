@@ -1,10 +1,13 @@
 import os
+from pathlib import Path
 from dotenv import load_dotenv
 import requests
 import json
 
 # Load variables from the .env file
 load_dotenv()
+
+_TRUSTED_SOURCES_FILE = Path(__file__).parent / "trusted_sources.json"
 
 def retrieve_from_trusted_sources(query: str, top_n: int = 3):
     """
@@ -17,7 +20,7 @@ def retrieve_from_trusted_sources(query: str, top_n: int = 3):
         return []
 
     try:
-        with open("backend/trusted_sources.json") as f:
+        with open(_TRUSTED_SOURCES_FILE) as f:
             trusted_domains = json.load(f)['domains']
     except FileNotFoundError:
         print("❌ trusted_sources.json not found. Returning no evidence.")

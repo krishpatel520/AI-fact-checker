@@ -11,7 +11,8 @@ REDIS_URL = os.getenv("REDIS_URL", "redis://localhost:6379/0")
 celery = Celery(
     "tasks",
     broker=REDIS_URL,
-    backend=REDIS_URL
+    backend=REDIS_URL,
+    include=["backend.worker"],   # ← tells the worker to load our tasks
 )
 
 celery.conf.update(
