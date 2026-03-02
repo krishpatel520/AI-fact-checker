@@ -1,29 +1,55 @@
-# Python virtual environment
-.env/
+# ── Python ─────────────────────────────────────────────────────────────────────
 .venv/
 env/
-
-# Python cache files
+venv/
 __pycache__/
-*.pyc
-*.pyo
+*.py[cod]
 *.pyd
+*.pyo
+*.egg-info/
+dist/
+build/
+*.egg
+.eggs/
 
-# IDE and editor configuration
-.vscode/
-.idea/
+# ── Testing ────────────────────────────────────────────────────────────────────
+.pytest_cache/
+.coverage
+htmlcov/
+*.xml
+test.db
 
-# Database file (you don't want to commit your development DB)
+# ── Secrets & Environment ──────────────────────────────────────────────────────
+# IMPORTANT: Never commit .env files — they contain API keys and secrets.
+# Use .env.example as the template.
+.env
+frontend/.env
+
+# ── Database ───────────────────────────────────────────────────────────────────
 verified_articles.db
 *.sqlite3
 
-# Pytest cache
-.pytest_cache/
-
-# Environment variables file (VERY IMPORTANT — contains secrets)
-.env
-
-# Frontend build artifacts and dependencies
+# ── Frontend ───────────────────────────────────────────────────────────────────
 frontend/node_modules/
 frontend/dist/
-frontend/.env
+frontend/.vite/
+node_modules/
+
+# ── Docker ─────────────────────────────────────────────────────────────────────
+# (docker-compose.yml and Dockerfile are intentionally committed)
+
+# ── IDEs & Editors ─────────────────────────────────────────────────────────────
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# ── OS Files ───────────────────────────────────────────────────────────────────
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ── Logs ───────────────────────────────────────────────────────────────────────
+*.log
+logs/
