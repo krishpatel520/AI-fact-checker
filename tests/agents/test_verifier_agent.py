@@ -10,10 +10,10 @@ Run:
     python -m pytest tests/agents/test_verifier_agent.py -v
 """
 
-import sys, os
+import sys
+import os
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
 
-import pytest
 from unittest.mock import patch, MagicMock
 from backend.agents.verifier_agent import _llm_nli, _heuristic_nli, run_verifier
 

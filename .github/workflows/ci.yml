@@ -52,7 +52,7 @@ jobs:
           SERPER_API_KEY: ${{ secrets.SERPER_API_KEY }}
           ALLOWED_ORIGINS: http://localhost:5173
         run: |
-          python -m pytest tests/test_worker.py tests/test_verifier.py -v --tb=short
+          python -m pytest tests/agents/ -v --tb=short
 
   lint:
     name: Lint (Python)
