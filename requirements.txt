@@ -1,0 +1,33 @@
+# ── Core Web Framework ────────────────────────────────────────────────────────
+fastapi
+uvicorn[standard]
+python-multipart
+
+# ── Asynchronous Background Tasks ─────────────────────────────────────────────
+celery[redis]
+redis[asyncio]          # async Redis client for WebSocket pub/sub
+gevent
+
+# ── Rate Limiting ─────────────────────────────────────────────────────────────
+slowapi
+
+# ── NLP ───────────────────────────────────────────────────────────────────────
+spacy
+# NOTE: after install run: python -m spacy download en_core_web_sm
+
+# ── LLM (Ollama REST client — no local GPU required) ─────────────────────────
+# Ollama is accessed via its HTTP API; only `requests` is needed.
+# No torch/transformers needed — model runs inside the Ollama service.
+
+# ── Database ──────────────────────────────────────────────────────────────────
+SQLAlchemy
+psycopg2-binary         # PostgreSQL driver
+python-dotenv
+
+# ── Data Parsing & Web Scraping ───────────────────────────────────────────────
+python-docx
+PyMuPDF
+newspaper3k
+requests
+beautifulsoup4
+lxml[html_clean]

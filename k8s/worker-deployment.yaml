@@ -1,0 +1,76 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: veritas-worker
+  namespace: veritas
+  labels:
+    app: veritas-worker
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: veritas-worker
+  template:
+    metadata:
+      labels:
+        app: veritas-worker
+    spec:
+      containers:
+        - name: worker
+          image: ghcr.io/YOUR_ORG/veritas:latest   # update with your registry
+          imagePullPolicy: Always
+          env:
+            - name: MODE
+              value: worker
+            - name: CELERY_QUEUES
+              value: "high,default,low"
+            - name: CELERY_CONCURRENCY
+              value: "4"
+            - name: SERPER_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: veritas-secrets
+                  key: SERPER_API_KEY
+          envFrom:
+            - configMapRef:
+                name: veritas-config
+          resources:
+            requests:
+              cpu: 500m
+              memory: 1Gi
+            limits:
+              cpu: "2"
+              memory: 2Gi
+          # Workers have no HTTP port — use liveness via Celery inspect
+          livenessProbe:
+            exec:
+              command:
+                - /bin/sh
+                - -c
+                - "celery -A backend.celery_app.celery inspect ping -d celery@$HOSTNAME"
+            initialDelaySeconds: 30
+            periodSeconds: 60
+            timeoutSeconds: 10
+
+---
+# HPA for workers — scale based on memory (proxy for queue depth)
+# For true queue-depth scaling, use KEDA with a Redis trigger.
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: veritas-worker-hpa
+  namespace: veritas
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: veritas-worker
+  minReplicas: 2
+  maxReplicas: 10
+  metrics:
+    - type: Resource
+      resource:
+        name: memory
+        target:
+          type: Utilization
+          averageUtilization: 70

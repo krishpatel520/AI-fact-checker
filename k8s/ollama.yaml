@@ -1,0 +1,95 @@
+# Ollama LLM service — runs llama3.1:8b for NLI claim verification
+# Deployed as a StatefulSet so the model volume is preserved across restarts.
+# GPU nodeSelector is commented — uncomment if your cluster has GPU nodes.
+
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: ollama
+  namespace: veritas
+  labels:
+    app: ollama
+spec:
+  serviceName: ollama
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ollama
+  template:
+    metadata:
+      labels:
+        app: ollama
+    spec:
+      # ── GPU scheduling (uncomment for NVIDIA GPU nodes) ──────────────────────
+      # nodeSelector:
+      #   accelerator: nvidia-tesla-t4
+      # tolerations:
+      #   - key: "nvidia.com/gpu"
+      #     operator: "Exists"
+      #     effect: "NoSchedule"
+
+      # Pull the model on first start via init container
+      initContainers:
+        - name: pull-model
+          image: ollama/ollama:latest
+          command:
+            - /bin/sh
+            - -c
+            - |
+              ollama serve &
+              sleep 8
+              ollama pull llama3.1:8b
+              kill %1
+          volumeMounts:
+            - name: ollama-data
+              mountPath: /root/.ollama
+          resources:
+            requests:
+              cpu: 500m
+              memory: 2Gi
+
+      containers:
+        - name: ollama
+          image: ollama/ollama:latest
+          ports:
+            - containerPort: 11434
+          resources:
+            requests:
+              cpu: "1"
+              memory: 6Gi
+            limits:
+              cpu: "4"
+              memory: 10Gi
+              # nvidia.com/gpu: "1"   # uncomment for GPU
+          readinessProbe:
+            httpGet:
+              path: /api/tags
+              port: 11434
+            initialDelaySeconds: 30
+            periodSeconds: 10
+            failureThreshold: 6
+          volumeMounts:
+            - name: ollama-data
+              mountPath: /root/.ollama
+  volumeClaimTemplates:
+    - metadata:
+        name: ollama-data
+      spec:
+        accessModes: ["ReadWriteOnce"]
+        resources:
+          requests:
+            storage: 20Gi   # llama3.1:8b is ~4.7 GB; headroom for model updates
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ollama
+  namespace: veritas
+spec:
+  selector:
+    app: ollama
+  ports:
+    - port: 11434
+      targetPort: 11434
+  clusterIP: None

@@ -1,0 +1,69 @@
+# ── Python ─────────────────────────────────────────────────────────────────────
+.venv/
+env/
+venv/
+__pycache__/
+*.py[cod]
+*.pyd
+*.pyo
+*.egg-info/
+dist/
+build/
+*.egg
+.eggs/
+
+# ── Testing ────────────────────────────────────────────────────────────────────
+.pytest_cache/
+.coverage
+htmlcov/
+coverage.xml
+*.xml
+test.db
+
+# ── Secrets & Environment ──────────────────────────────────────────────────────
+# IMPORTANT: Never commit .env files — they contain API keys and secrets.
+# Use .env.example as the template (safe to commit).
+.env
+frontend/.env
+
+# ── Database ───────────────────────────────────────────────────────────────────
+verified_articles.db
+*.sqlite3
+*.db
+
+# ── Docker volumes & runtime data ──────────────────────────────────────────────
+# These are created by docker compose and should not be committed
+ollama_data/
+postgres_data/
+redis_data/
+
+# ── Frontend ───────────────────────────────────────────────────────────────────
+frontend/node_modules/
+frontend/dist/
+frontend/.vite/
+node_modules/
+
+# ── Kubernetes secrets (never commit real values) ──────────────────────────────
+# k8s/secrets.yaml is committed but contains only placeholder base64 values.
+# If you add a secrets-prod.yaml, add it here:
+k8s/secrets-prod.yaml
+k8s/secrets-*.local.yaml
+
+# ── IDEs & Editors ─────────────────────────────────────────────────────────────
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# ── OS Files ───────────────────────────────────────────────────────────────────
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ── Logs ───────────────────────────────────────────────────────────────────────
+*.log
+logs/
+
+# ── spaCy model cache (downloaded at runtime, not committed) ───────────────────
+en_core_web_sm/

@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: veritas-config
+  namespace: veritas
+data:
+  REDIS_URL: "redis://redis:6379/0"
+  OLLAMA_HOST: "http://ollama:11434"
+  OLLAMA_MODEL: "llama3.1:8b"
+  OLLAMA_TIMEOUT_SECONDS: "45"
+  ALLOWED_ORIGINS: "https://your-frontend-domain.com"
+  DATABASE_URL: "postgresql://veritas:$(POSTGRES_PASSWORD)@postgres:5432/veritas"
+  LOG_LEVEL: "info"
+  UVICORN_WORKERS: "2"
+  CELERY_QUEUES: "high,default,low"
+  CELERY_CONCURRENCY: "4"
+  WS_TIMEOUT_SECONDS: "180"

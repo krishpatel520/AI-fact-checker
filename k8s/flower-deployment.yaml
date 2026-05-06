@@ -1,0 +1,58 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: flower
+  namespace: veritas
+  labels:
+    app: flower
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: flower
+  template:
+    metadata:
+      labels:
+        app: flower
+    spec:
+      containers:
+        - name: flower
+          image: ghcr.io/YOUR_ORG/veritas:latest
+          env:
+            - name: MODE
+              value: flower
+            - name: FLOWER_USER
+              valueFrom:
+                secretKeyRef:
+                  name: veritas-secrets
+                  key: FLOWER_USER
+            - name: FLOWER_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: veritas-secrets
+                  key: FLOWER_PASSWORD
+          envFrom:
+            - configMapRef:
+                name: veritas-config
+          ports:
+            - containerPort: 5555
+          resources:
+            requests:
+              cpu: 100m
+              memory: 128Mi
+            limits:
+              cpu: 300m
+              memory: 256Mi
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: flower
+  namespace: veritas
+spec:
+  selector:
+    app: flower
+  ports:
+    - port: 5555
+      targetPort: 5555

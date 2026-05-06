@@ -1,0 +1,127 @@
+services:
+
+  # ── Message broker & result backend ─────────────────────────────────────────
+  redis:
+    image: redis:7-alpine
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+
+  # ── PostgreSQL database ──────────────────────────────────────────────────────
+  postgres:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: veritas
+      POSTGRES_PASSWORD: veritas
+      POSTGRES_DB: veritas
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U veritas"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  # ── Ollama LLM service (llama3.1:8b for NLI claim verification) ──────────────
+  ollama:
+    image: ollama/ollama:latest
+    restart: unless-stopped
+    # Expose for debugging; remove in production
+    ports:
+      - "11434:11434"
+    volumes:
+      - ollama_data:/root/.ollama
+    # Pull model on first boot — comment out after first run to speed up restarts
+    entrypoint: ["/bin/sh", "-c", "ollama serve & sleep 5 && ollama pull llama3.1:8b && wait"]
+    # GPU support (uncomment if your Docker host has NVIDIA GPU):
+    # deploy:
+    #   resources:
+    #     reservations:
+    #       devices:
+    #         - driver: nvidia
+    #           count: 1
+    #           capabilities: [gpu]
+
+  # ── FastAPI application ──────────────────────────────────────────────────────
+  api:
+    build: .
+    restart: unless-stopped
+    environment:
+      MODE: api
+      REDIS_URL: redis://redis:6379/0
+      DATABASE_URL: postgresql://veritas:veritas@postgres:5432/veritas
+      OLLAMA_HOST: http://ollama:11434
+      UVICORN_WORKERS: "2"
+    env_file:
+      - .env
+    depends_on:
+      redis:
+        condition: service_healthy
+      postgres:
+        condition: service_healthy
+      ollama:
+        condition: service_started
+
+  # ── Celery worker (high + default queues) ───────────────────────────────────
+  worker:
+    build: .
+    restart: unless-stopped
+    environment:
+      MODE: worker
+      REDIS_URL: redis://redis:6379/0
+      DATABASE_URL: postgresql://veritas:veritas@postgres:5432/veritas
+      OLLAMA_HOST: http://ollama:11434
+      CELERY_QUEUES: "high,default"
+      CELERY_CONCURRENCY: "4"
+    env_file:
+      - .env
+    depends_on:
+      redis:
+        condition: service_healthy
+      postgres:
+        condition: service_healthy
+      ollama:
+        condition: service_started
+
+  # ── Celery monitoring dashboard (Flower) ────────────────────────────────────
+  flower:
+    build: .
+    restart: unless-stopped
+    ports:
+      - "5555:5555"
+    environment:
+      MODE: flower
+      REDIS_URL: redis://redis:6379/0
+      FLOWER_USER: admin
+      FLOWER_PASSWORD: veritas
+    env_file:
+      - .env
+    depends_on:
+      redis:
+        condition: service_healthy
+
+  # ── Nginx reverse proxy + static frontend ────────────────────────────────────
+  nginx:
+    image: nginx:1.25-alpine
+    restart: unless-stopped
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      # Mount built frontend dist here (run: cd frontend && npm run build first)
+      - ./frontend/dist:/usr/share/nginx/html:ro
+    depends_on:
+      - api
+
+volumes:
+  redis_data:
+  postgres_data:
+  ollama_data:

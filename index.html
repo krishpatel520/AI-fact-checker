@@ -1,0 +1,1113 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Veritas — AI-Powered News Analysis</title>
+    <meta name="description"
+        content="Veritas uses AI to fact-check news articles, reveal media bias, and surface related coverage across the political spectrum.">
+
+    <!-- React and Babel for JSX -->
+    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        /* ── Dark / Light theme ─────────────────────────────── */
+        body.dark {
+            background-color: #0b0f1a;
+            color: #cbd5e1;
+        }
+
+        body.light {
+            background-color: #f0f4f8;
+            color: #1e293b;
+        }
+
+        /* Cards */
+        body.dark .card {
+            background: rgba(15, 23, 42, 0.8);
+            border-color: rgba(71, 85, 105, 0.5);
+        }
+
+        body.light .card {
+            background: #ffffff;
+            border-color: #e2e8f0;
+        }
+
+        /* Surface */
+        body.dark .surface {
+            background: rgba(30, 41, 59, 0.6);
+        }
+
+        body.light .surface {
+            background: rgba(241, 245, 249, 0.8);
+        }
+
+        /* Input */
+        body.dark .inp {
+            background: #1e293b;
+            border-color: #334155;
+            color: #f1f5f9;
+        }
+
+        body.light .inp {
+            background: #ffffff;
+            border-color: #cbd5e1;
+            color: #0f172a;
+        }
+
+        body.dark .inp::placeholder {
+            color: #64748b;
+        }
+
+        body.light .inp::placeholder {
+            color: #94a3b8;
+        }
+
+        /* Subtle text */
+        body.dark .muted {
+            color: #64748b;
+        }
+
+        body.light .muted {
+            color: #94a3b8;
+        }
+
+        body.dark .secondary {
+            color: #94a3b8;
+        }
+
+        body.light .secondary {
+            color: #64748b;
+        }
+
+        /* Tab active */
+        body.dark .tab-active {
+            background: #4f46e5;
+            color: #fff;
+        }
+
+        body.light .tab-active {
+            background: #4f46e5;
+            color: #fff;
+        }
+
+        body.dark .tab-idle {
+            color: #94a3b8;
+        }
+
+        body.dark .tab-idle:hover {
+            background: rgba(51, 65, 85, 0.6);
+            color: #e2e8f0;
+        }
+
+        body.light .tab-idle {
+            color: #64748b;
+        }
+
+        body.light .tab-idle:hover {
+            background: #e2e8f0;
+            color: #0f172a;
+        }
+
+        /* Section bg variations */
+        body.dark .section-bg {
+            background: rgba(15, 23, 42, 0.6);
+        }
+
+        body.light .section-bg {
+            background: #f8fafc;
+        }
+
+        /* Pill filter */
+        body.dark .pill {
+            background: rgba(30, 41, 59, 0.7);
+            color: #94a3b8;
+            border-color: #334155;
+        }
+
+        body.dark .pill:hover {
+            border-color: #6366f1;
+            color: #e0e7ff;
+        }
+
+        body.dark .pill-active {
+            background: #4f46e5;
+            color: #fff;
+            border-color: #4f46e5;
+        }
+
+        body.light .pill {
+            background: #fff;
+            color: #64748b;
+            border-color: #e2e8f0;
+        }
+
+        body.light .pill:hover {
+            border-color: #6366f1;
+            color: #4f46e5;
+        }
+
+        body.light .pill-active {
+            background: #4f46e5;
+            color: #fff;
+            border-color: #4f46e5;
+        }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #4b5563;
+            border-radius: 999px;
+        }
+
+        /* Animations */
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(16px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: .4;
+            }
+        }
+
+        @keyframes shimmer {
+            0% {
+                background-position: -200% 0;
+            }
+
+            100% {
+                background-position: 200% 0;
+            }
+        }
+
+        @keyframes scaleIn {
+            from {
+                transform: scale(0.95);
+                opacity: 0;
+            }
+
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        @keyframes drawDash {
+            to {
+                stroke-dashoffset: 0;
+            }
+        }
+
+        .fade-up {
+            animation: fadeUp 0.4s ease both;
+        }
+
+        .spinner {
+            animation: spin 1s linear infinite;
+        }
+
+        .pulse {
+            animation: pulse 1.5s ease-in-out infinite;
+        }
+
+        .scale-in {
+            animation: scaleIn 0.3s ease both;
+        }
+
+        /* Gradient wordmark */
+        .wordmark {
+            background: linear-gradient(135deg, #818cf8 0%, #38bdf8 50%, #34d399 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* Spectrum bar */
+        .spectrum-bar {
+            background: linear-gradient(to right,
+                    #3b82f6 0%,
+                    #93c5fd 20%,
+                    #e5e7eb 40%,
+                    #fca5a5 65%,
+                    #ef4444 100%);
+            height: 8px;
+            border-radius: 999px;
+            position: relative;
+        }
+
+        /* NLI bar */
+        .nli-bar {
+            height: 6px;
+            border-radius: 999px;
+            transition: width 0.8s cubic-bezier(.4, 0, .2, 1);
+        }
+
+        /* Credibility ring */
+        .ring-svg {
+            transform: rotate(-90deg);
+        }
+
+        .ring-bg {
+            fill: none;
+            stroke: #334155;
+            stroke-width: 8;
+        }
+
+        .ring-fill {
+            fill: none;
+            stroke-width: 8;
+            stroke-linecap: round;
+            transition: stroke-dashoffset 1s cubic-bezier(.4, 0, .2, 1), stroke 0.5s;
+        }
+
+        /* Outlet card hover */
+        .outlet-card {
+            transition: transform 0.15s, box-shadow 0.15s, border-color 0.15s;
+        }
+
+        .outlet-card:hover {
+            transform: translateY(-2px);
+        }
+
+        body.dark .outlet-card:hover {
+            border-color: #6366f1;
+            box-shadow: 0 0 0 1px #4f46e5, 0 8px 24px rgba(99, 102, 241, .15);
+        }
+
+        body.light .outlet-card:hover {
+            border-color: #6366f1;
+            box-shadow: 0 0 0 1px #4f46e5, 0 8px 24px rgba(99, 102, 241, .1);
+        }
+
+        /* Claim card */
+        .claim-card {
+            transition: border-color 0.2s;
+        }
+
+        body.dark .claim-card:hover {
+            border-color: #475569;
+        }
+
+        body.light .claim-card:hover {
+            border-color: #cbd5e1;
+        }
+
+        /* Drop zone */
+        .drop-zone {
+            transition: border-color 0.2s, background 0.2s;
+        }
+
+        .drop-zone.drag-over {
+            border-color: #6366f1;
+            background: rgba(99, 102, 241, 0.08);
+        }
+
+        /* Loading step */
+        .step-active {
+            animation: pulse 1.5s ease-in-out infinite;
+        }
+
+        /* Override Tailwind prose in dark */
+        body.dark .prose-txt {
+            color: #cbd5e1;
+        }
+
+        body.light .prose-txt {
+            color: #334155;
+        }
+    </style>
+</head>
+
+<body class="dark">
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState, useEffect, useRef, useCallback } = React;
+
+        const API_BASE = "http://localhost:8000";
+
+        // ─────────────────────────────────────────────
+        //  HELPERS & SMALL COMPONENTS
+        // ─────────────────────────────────────────────
+
+        const BIAS_CONFIG = {
+            'Left': { color: '#3b82f6', label: 'Left', score: -1.0 },
+            'Lean Left': { color: '#60a5fa', label: 'Lean Left', score: -0.5 },
+            'Center': { color: '#94a3b8', label: 'Center', score: 0.0 },
+            'Center-Right': { color: '#fb923c', label: 'Center-Right', score: 0.4 },
+            'Lean Right': { color: '#f97316', label: 'Lean Right', score: 0.5 },
+            'Right': { color: '#ef4444', label: 'Right', score: 1.0 },
+            'Not Rated': { color: '#64748b', label: 'Not Rated', score: null },
+            'N/A': { color: '#64748b', label: 'N/A', score: null },
+        };
+
+        const FACTUALITY_COLOR = {
+            'Very High': '#22c55e',
+            'High': '#86efac',
+            'Mostly Factual': '#fbbf24',
+            'Mixed': '#f97316',
+            'Low': '#ef4444',
+            'Very Low': '#b91c1c',
+            'Not Rated': '#64748b',
+            'N/A': '#64748b',
+        };
+
+        function BiasBadge({ bias, small }) {
+            const cfg = BIAS_CONFIG[bias] || BIAS_CONFIG['Not Rated'];
+            const size = small ? 'px-2 py-0.5 text-xs' : 'px-3 py-1 text-xs font-semibold';
+            return (
+                <span
+                    className={`${size} rounded-full font-semibold inline-flex items-center gap-1`}
+                    style={{ background: cfg.color + '22', color: cfg.color, border: `1px solid ${cfg.color}55` }}
+                >
+                    {cfg.label}
+                </span>
+            );
+        }
+
+        function FactualityBadge({ rating }) {
+            const color = FACTUALITY_COLOR[rating] || '#64748b';
+            return (
+                <span
+                    className="px-2 py-0.5 text-xs rounded-full font-medium"
+                    style={{ background: color + '1a', color, border: `1px solid ${color}44` }}
+                >
+                    {rating || 'Not Rated'}
+                </span>
+            );
+        }
+
+        function VerdictBadge({ verdict }) {
+            const map = {
+                supported: { bg: '#22c55e22', text: '#4ade80', border: '#22c55e44', label: 'Supported' },
+                refuted: { bg: '#ef444422', text: '#f87171', border: '#ef444444', label: 'Refuted' },
+                not_enough_info: { bg: '#64748b22', text: '#94a3b8', border: '#64748b44', label: 'Not Enough Info' },
+            };
+            const s = map[verdict] || map.not_enough_info;
+            return (
+                <span className="px-3 py-1 text-xs font-bold rounded-full"
+                    style={{ background: s.bg, color: s.text, border: `1px solid ${s.border}` }}>
+                    {s.label}
+                </span>
+            );
+        }
+
+        function DocStatusBadge({ status }) {
+            const map = {
+                clean_document: { bg: '#22c55e22', text: '#4ade80', border: '#22c55e44', icon: '✓', label: 'Clean Document' },
+                inaccuracies_found: { bg: '#ef444422', text: '#f87171', border: '#ef444444', icon: '⚠', label: 'Inaccuracies Found' },
+                not_enough_info: { bg: '#64748b22', text: '#94a3b8', border: '#64748b44', icon: '?', label: 'Not Enough Info' },
+            };
+            const s = map[status] || map.not_enough_info;
+            return (
+                <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-sm font-bold"
+                    style={{ background: s.bg, color: s.text, border: `1px solid ${s.border}` }}>
+                    <span>{s.icon}</span>{s.label}
+                </span>
+            );
+        }
+
+        function Spinner({ size = 20, color = '#818cf8' }) {
+            return (
+                <svg width={size} height={size} viewBox="0 0 24 24" fill="none"
+                    className="spinner" style={{ minWidth: size }}>
+                    <circle cx="12" cy="12" r="10" stroke={color + '33'} strokeWidth="3" />
+                    <path d="M12 2 A10 10 0 0 1 22 12" stroke={color} strokeWidth="3" strokeLinecap="round" />
+                </svg>
+            );
+        }
+
+        // Credibility ring gauge
+        function CredibilityRing({ score }) {
+            const r = 44;
+            const circ = 2 * Math.PI * r;
+            const offset = circ - (score / 100) * circ;
+            const color = score >= 70 ? '#22c55e' : score >= 40 ? '#f59e0b' : '#ef4444';
+            const label = score >= 70 ? 'High' : score >= 40 ? 'Moderate' : 'Low';
+
+            return (
+                <div className="flex flex-col items-center gap-1">
+                    <svg width="110" height="110" viewBox="0 0 110 110" className="ring-svg">
+                        <circle cx="55" cy="55" r={r} className="ring-bg" />
+                        <circle cx="55" cy="55" r={r} className="ring-fill"
+                            stroke={color}
+                            strokeDasharray={circ}
+                            strokeDashoffset={offset} />
+                    </svg>
+                    <div style={{ marginTop: -80, marginBottom: 30 }} className="text-center pointer-events-none">
+                        <div className="text-3xl font-black" style={{ color }}>{score}</div>
+                        <div className="text-xs font-semibold secondary">{label} Credibility</div>
+                    </div>
+                </div>
+            );
+        }
+
+        // NLI score mini bars
+        function NLIBars({ scores }) {
+            if (!scores) return null;
+            const bars = [
+                { label: 'Entails', value: scores.entailment, color: '#22c55e' },
+                { label: 'Neutral', value: scores.neutral, color: '#94a3b8' },
+                { label: 'Contradicts', value: scores.contradiction, color: '#ef4444' },
+            ];
+            return (
+                <div className="mt-2 space-y-1">
+                    {bars.map(b => (
+                        <div key={b.label} className="flex items-center gap-2">
+                            <span className="text-xs muted w-20 shrink-0">{b.label}</span>
+                            <div className="flex-1 rounded-full" style={{ background: '#33415544', height: 6 }}>
+                                <div className="nli-bar" style={{ width: `${(b.value || 0) * 100}%`, background: b.color }} />
+                            </div>
+                            <span className="text-xs muted w-8 text-right">{((b.value || 0) * 100).toFixed(0)}%</span>
+                        </div>
+                    ))}
+                </div>
+            );
+        }
+
+        // Political spectrum bar with dots
+        function SpectrumBar({ outlets }) {
+            // Only outlets with a political_leaning_score
+            const rated = outlets.filter(o => o.political_leaning_score != null);
+            return (
+                <div className="px-1 py-2">
+                    <div className="flex justify-between text-xs muted mb-1.5 px-1">
+                        <span>◀ Left</span><span>Center</span><span>Right ▶</span>
+                    </div>
+                    <div className="spectrum-bar">
+                        {rated.map((o, i) => {
+                            // score is -1 to 1; map to 0-100%
+                            const pct = ((o.political_leaning_score + 1) / 2) * 100;
+                            const cfg = BIAS_CONFIG[o.bias] || BIAS_CONFIG['Not Rated'];
+                            return (
+                                <div key={i} title={`${o.domain} — ${o.bias}`}
+                                    className="absolute -translate-x-1/2 -translate-y-1/2 top-1/2 cursor-pointer"
+                                    style={{ left: `${pct}%` }}>
+                                    <img src={o.logo_url} alt={o.domain}
+                                        className="w-5 h-5 rounded-full border-2 object-cover bg-slate-800"
+                                        style={{ borderColor: cfg.color }}
+                                        onError={e => { e.target.style.display = 'none'; }} />
+                                </div>
+                            );
+                        })}
+                    </div>
+                </div>
+            );
+        }
+
+        // ─────────────────────────────────────────────
+        //  HOME PAGE
+        // ─────────────────────────────────────────────
+
+        function HomePage({ onStartAnalysis }) {
+            const [activeTab, setActiveTab] = useState('url');
+            const [url, setUrl] = useState('');
+            const [file, setFile] = useState(null);
+            const [text, setText] = useState('');
+            const [dragging, setDragging] = useState(false);
+            const fileInputRef = useRef(null);
+
+            const valid =
+                (activeTab === 'url' && url.trim()) ||
+                (activeTab === 'file' && file) ||
+                (activeTab === 'text' && text.trim().length > 50);
+
+            const handleDrop = e => {
+                e.preventDefault();
+                setDragging(false);
+                if (e.dataTransfer.files?.[0]) setFile(e.dataTransfer.files[0]);
+            };
+
+            const handleSubmit = () => {
+                if (!valid) return;
+                if (activeTab === 'url') onStartAnalysis({ type: 'url', value: url });
+                if (activeTab === 'file') onStartAnalysis({ type: 'file', value: file });
+                if (activeTab === 'text') onStartAnalysis({ type: 'text', value: text });
+            };
+
+            const Tab = ({ id, label, icon }) => (
+                <button
+                    onClick={() => setActiveTab(id)}
+                    className={`flex items-center gap-1.5 px-4 py-2 text-sm font-semibold rounded-lg transition-all ${activeTab === id ? 'tab-active' : 'tab-idle'}`}
+                >{icon} {label}</button>
+            );
+
+            return (
+                <div className="min-h-screen flex flex-col">
+                    {/* Header */}
+                    <header className="text-center pt-16 pb-10 px-6 fade-up">
+                        <div className="inline-flex items-center gap-3 mb-6">
+                            <svg width="40" height="40" viewBox="0 0 40 40" fill="none">
+                                <circle cx="20" cy="20" r="19" stroke="url(#g1)" strokeWidth="2" />
+                                <path d="M12 20l5 5 11-11" stroke="url(#g1)" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+                                <defs>
+                                    <linearGradient id="g1" x1="0" y1="0" x2="40" y2="40">
+                                        <stop stopColor="#818cf8" /><stop offset="0.5" stopColor="#38bdf8" /><stop offset="1" stopColor="#34d399" />
+                                    </linearGradient>
+                                </defs>
+                            </svg>
+                            <h1 className="text-5xl font-black tracking-tight wordmark">VERITAS</h1>
+                        </div>
+                        <p className="text-lg secondary max-w-xl mx-auto leading-relaxed">
+                            AI-powered fact-checking with full media bias transparency.
+                            See how outlets across the political spectrum cover the same story.
+                        </p>
+                    </header>
+
+                    {/* Input card */}
+                    <main className="mx-auto w-full max-w-2xl px-4 pb-20 fade-up" style={{ animationDelay: '0.1s' }}>
+                        <div className="card border rounded-2xl shadow-2xl p-6">
+                            {/* Tabs */}
+                            <div className="flex gap-1 p-1 rounded-xl surface mb-6">
+                                <Tab id="url" label="Verify URL" icon="🔗" />
+                                <Tab id="file" label="Upload File" icon="📄" />
+                                <Tab id="text" label="Paste Text" icon="✍️" />
+                            </div>
+
+                            {/* URL */}
+                            {activeTab === 'url' && (
+                                <div className="scale-in">
+                                    <input
+                                        id="url-input"
+                                        type="url"
+                                        value={url}
+                                        onChange={e => setUrl(e.target.value)}
+                                        onKeyDown={e => e.key === 'Enter' && handleSubmit()}
+                                        placeholder="https://www.example.com/news/article..."
+                                        className="inp w-full rounded-xl px-4 py-3.5 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 transition"
+                                    />
+                                    <p className="text-xs muted mt-2 pl-1">Supports any publicly accessible news article URL.</p>
+                                </div>
+                            )}
+
+                            {/* File */}
+                            {activeTab === 'file' && (
+                                <div className="scale-in">
+                                    <div
+                                        className={`drop-zone border-2 border-dashed rounded-xl p-10 text-center cursor-pointer ${dragging ? 'drag-over' : 'border-slate-600'}`}
+                                        onDragOver={e => { e.preventDefault(); setDragging(true); }}
+                                        onDragLeave={() => setDragging(false)}
+                                        onDrop={handleDrop}
+                                        onClick={() => fileInputRef.current.click()}
+                                    >
+                                        <input type="file" ref={fileInputRef} className="hidden"
+                                            accept=".pdf,.doc,.docx,.txt"
+                                            onChange={e => e.target.files[0] && setFile(e.target.files[0])} />
+                                        {file ? (
+                                            <div>
+                                                <p className="text-2xl mb-2">📄</p>
+                                                <p className="font-semibold text-indigo-400">{file.name}</p>
+                                                <p className="text-xs muted mt-1">{(file.size / 1024).toFixed(1)} KB</p>
+                                            </div>
+                                        ) : (
+                                            <div>
+                                                <p className="text-3xl mb-3">☁️</p>
+                                                <p className="font-semibold secondary">Drop a file here or <span className="text-indigo-400">click to browse</span></p>
+                                                <p className="text-xs muted mt-1">PDF, DOCX, DOC, TXT</p>
+                                            </div>
+                                        )}
+                                    </div>
+                                </div>
+                            )}
+
+                            {/* Text paste */}
+                            {activeTab === 'text' && (
+                                <div className="scale-in">
+                                    <textarea
+                                        id="text-input"
+                                        value={text}
+                                        onChange={e => setText(e.target.value)}
+                                        placeholder="Paste the full article text here (minimum 50 characters)..."
+                                        rows={7}
+                                        className="inp w-full rounded-xl px-4 py-3.5 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 transition resize-none"
+                                    />
+                                    <p className="text-xs muted mt-1.5 pl-1">{text.length} characters</p>
+                                </div>
+                            )}
+
+                            <button
+                                id="analyze-btn"
+                                onClick={handleSubmit}
+                                disabled={!valid}
+                                className="mt-5 w-full py-4 rounded-xl text-base font-bold text-white transition-all
+                                   bg-indigo-600 hover:bg-indigo-500 disabled:opacity-40 disabled:cursor-not-allowed
+                                   hover:shadow-lg hover:shadow-indigo-500/25 active:scale-[.98]"
+                            >
+                                Disseminate →
+                            </button>
+                        </div>
+
+                        {/* Example */}
+                        <p className="text-center text-xs muted mt-5">
+                            Try:{' '}
+                            <button className="text-indigo-400 hover:underline"
+                                onClick={() => { setActiveTab('url'); setUrl('https://apnews.com/'); }}>
+                                AP News
+                            </button>
+                        </p>
+                    </main>
+                </div>
+            );
+        }
+
+        // ─────────────────────────────────────────────
+        //  LOADING STATE
+        // ─────────────────────────────────────────────
+
+        const STEPS = [
+            'Fetching article content…',
+            'Extracting factual claims…',
+            'Searching trusted sources…',
+            'Analyzing media bias…',
+            'Finding related coverage…',
+            'Building your report…',
+        ];
+
+        function LoadingState({ input }) {
+            const [step, setStep] = useState(0);
+            useEffect(() => {
+                const t = setInterval(() => setStep(s => Math.min(s + 1, STEPS.length - 1)), 2200);
+                return () => clearInterval(t);
+            }, []);
+
+            const label = input.type === 'url' ? (() => { try { return new URL(input.value).hostname } catch (e) { return input.value } })()
+                : input.type === 'file' ? input.value.name
+                    : 'Pasted text';
+
+            return (
+                <div className="min-h-screen flex flex-col items-center justify-center text-center px-4">
+                    <Spinner size={56} color="#818cf8" />
+                    <h2 className="mt-6 text-2xl font-bold" style={{ color: '#e2e8f0' }}>Analyzing…</h2>
+                    <p className="secondary text-sm mt-1 max-w-xs truncate">{label}</p>
+
+                    <div className="mt-10 space-y-2 text-left w-full max-w-xs">
+                        {STEPS.map((s, i) => (
+                            <div key={i} className={`flex items-center gap-3 text-sm transition-all duration-300 ${i < step ? 'opacity-40' : i === step ? 'opacity-100 step-active' : 'opacity-20'
+                                }`}>
+                                <span className="text-base">{i < step ? '✓' : i === step ? '▶' : '○'}</span>
+                                <span style={{ color: i === step ? '#818cf8' : undefined }}>{s}</span>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            );
+        }
+
+        // ─────────────────────────────────────────────
+        //  RESULTS PAGE
+        // ─────────────────────────────────────────────
+
+        function ResultsPage({ data, onReset }) {
+            const result = data.result;
+            const { status, credibility_score, article_title, publish_date, source_analysis, related_coverage, results } = result;
+
+            const [biasFilter, setBiasFilter] = useState('All');
+            const [openEvidence, setOpenEvidence] = useState({});
+            const [summaryOpen, setSummaryOpen] = useState(false);
+            const [summaryText, setSummaryText] = useState('');
+
+            const toggleEvidence = i => setOpenEvidence(p => ({ ...p, [i]: !p[i] }));
+
+            // Bias filter pills
+            const FILTERS = ['All', 'Left', 'Center', 'Right'];
+            const filteredCoverage = (related_coverage || []).filter(o => {
+                if (biasFilter === 'All') return true;
+                if (biasFilter === 'Left') return ['Left', 'Lean Left'].includes(o.bias);
+                if (biasFilter === 'Center') return ['Center', 'Center-Right'].includes(o.bias);
+                if (biasFilter === 'Right') return ['Lean Right', 'Right'].includes(o.bias);
+                return true;
+            });
+
+            const generateSummary = () => {
+                const raw = (result.text || '').replace(/\s+/g, ' ').trim();
+                let sentences = raw.split(/(?<=[.!?])\s+/).filter(s => s.length > 40).slice(0, 5);
+                if (!sentences.length && results?.length)
+                    sentences = results.map(r => r.claim).filter(Boolean).slice(0, 5);
+                setSummaryText(sentences.length ? sentences.join(' ') : 'No summary available.');
+                setSummaryOpen(true);
+            };
+
+            const scoreColor = credibility_score >= 70 ? '#22c55e' : credibility_score >= 40 ? '#f59e0b' : '#ef4444';
+
+            return (
+                <div className="min-h-screen">
+                    {/* Top bar */}
+                    <nav className="sticky top-0 z-30 backdrop-blur-lg border-b"
+                        style={{ borderColor: 'rgba(71,85,105,0.4)', background: 'rgba(11,15,26,0.85)' }}>
+                        <div className="max-w-5xl mx-auto px-4 py-3 flex items-center justify-between">
+                            <span className="text-lg font-black wordmark tracking-tight">VERITAS</span>
+                            <button onClick={onReset}
+                                className="px-4 py-1.5 rounded-lg text-sm font-semibold bg-indigo-600 hover:bg-indigo-500 text-white transition">
+                                ← New Analysis
+                            </button>
+                        </div>
+                    </nav>
+
+                    <div className="max-w-5xl mx-auto px-4 py-8 space-y-6 fade-up">
+
+                        {/* ── Source Header Card ─── */}
+                        <div className="card border rounded-2xl p-6">
+                            <div className="flex flex-col md:flex-row gap-6 items-start">
+                                {/* Logo + info */}
+                                <div className="flex items-start gap-4 flex-1 min-w-0">
+                                    <img
+                                        src={source_analysis.logo_url || `https://www.google.com/s2/favicons?domain=${source_analysis.domain}&sz=64`}
+                                        alt={source_analysis.domain}
+                                        className="w-14 h-14 rounded-xl object-contain bg-slate-800 border border-slate-700 p-1 shrink-0"
+                                        onError={e => e.target.style.display = 'none'}
+                                    />
+                                    <div className="min-w-0">
+                                        <h2 className="text-xl font-bold truncate" style={{ color: '#e2e8f0' }}>
+                                            {source_analysis.domain || 'Uploaded Document'}
+                                        </h2>
+                                        {article_title && (
+                                            <p className="text-sm secondary mt-1 leading-snug line-clamp-2">{article_title}</p>
+                                        )}
+                                        <div className="flex flex-wrap items-center gap-2 mt-3">
+                                            <BiasBadge bias={source_analysis.bias} />
+                                            <FactualityBadge rating={source_analysis.factual_reporting} />
+                                            {source_analysis.country && (
+                                                <span className="text-xs muted">{source_analysis.country}</span>
+                                            )}
+                                            {publish_date && (
+                                                <span className="text-xs muted">📅 {publish_date.slice(0, 10)}</span>
+                                            )}
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {/* Right: status + credibility */}
+                                <div className="flex flex-col items-center gap-3 shrink-0">
+                                    <DocStatusBadge status={status} />
+                                    <CredibilityRing score={credibility_score ?? 50} />
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* ── Related Coverage Panel ─── */}
+                        {related_coverage && related_coverage.length > 0 && (
+                            <div className="card border rounded-2xl p-6 space-y-5">
+                                <div className="flex items-center justify-between flex-wrap gap-2">
+                                    <h3 className="font-bold text-lg" style={{ color: '#e2e8f0' }}>
+                                        📰 {related_coverage.length} Outlets Cover This Story
+                                    </h3>
+                                    {/* Bias filter pills */}
+                                    <div className="flex gap-1.5 flex-wrap">
+                                        {FILTERS.map(f => (
+                                            <button key={f}
+                                                className={`pill pill border text-xs font-semibold px-3 py-1 rounded-full transition ${biasFilter === f ? 'pill-active' : ''}`}
+                                                onClick={() => setBiasFilter(f)}>
+                                                {f}
+                                            </button>
+                                        ))}
+                                    </div>
+                                </div>
+
+                                {/* Spectrum bar */}
+                                <div className="relative" style={{ padding: '8px 0' }}>
+                                    <SpectrumBar outlets={related_coverage} />
+                                </div>
+
+                                {/* Outlet cards grid */}
+                                {filteredCoverage.length > 0 ? (
+                                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+                                        {filteredCoverage.map((o, i) => {
+                                            const cfg = BIAS_CONFIG[o.bias] || BIAS_CONFIG['Not Rated'];
+                                            const facColor = FACTUALITY_COLOR[o.factual_reporting] || '#64748b';
+                                            return (
+                                                <a key={i} href={o.url} target="_blank" rel="noopener noreferrer"
+                                                    className="outlet-card card border rounded-xl p-4 flex flex-col gap-2 no-underline">
+                                                    <div className="flex items-center gap-2">
+                                                        <img src={o.logo_url} alt={o.domain}
+                                                            className="w-8 h-8 rounded-lg object-contain bg-slate-800 border border-slate-700 p-0.5 shrink-0"
+                                                            onError={e => { e.target.src = `https://www.google.com/s2/favicons?domain=${o.domain}&sz=64`; }} />
+                                                        <span className="text-sm font-semibold truncate" style={{ color: '#e2e8f0' }}>{o.domain}</span>
+                                                    </div>
+                                                    <p className="text-xs secondary leading-snug line-clamp-2">{o.title}</p>
+                                                    {o.snippet && (
+                                                        <p className="text-xs muted leading-snug line-clamp-2">{o.snippet}</p>
+                                                    )}
+                                                    <div className="flex items-center justify-between mt-auto pt-1 flex-wrap gap-1">
+                                                        <BiasBadge bias={o.bias} small />
+                                                        <span className="text-xs font-medium" style={{ color: facColor }}>
+                                                            {o.factual_reporting || 'Not Rated'}
+                                                        </span>
+                                                        {o.date && <span className="text-xs muted">{o.date}</span>}
+                                                    </div>
+                                                </a>
+                                            );
+                                        })}
+                                    </div>
+                                ) : (
+                                    <p className="text-sm secondary text-center py-4">No outlets match this filter.</p>
+                                )}
+                            </div>
+                        )}
+
+                        {/* ── AI Summary ─── */}
+                        <div className="card border rounded-2xl p-6">
+                            <div className="flex items-center justify-between gap-4">
+                                <div>
+                                    <h3 className="font-bold text-lg" style={{ color: '#e2e8f0' }}>✨ AI Summary</h3>
+                                    <p className="text-xs muted mt-0.5">Auto-generated from article text and claims</p>
+                                </div>
+                                <button
+                                    id="summary-btn"
+                                    onClick={generateSummary}
+                                    className="shrink-0 px-4 py-2 rounded-lg text-sm font-semibold bg-indigo-600 hover:bg-indigo-500 text-white transition"
+                                >
+                                    Generate Summary
+                                </button>
+                            </div>
+                            {summaryOpen && (
+                                <div className="mt-4 p-4 rounded-xl surface text-sm prose-txt leading-relaxed scale-in">
+                                    {summaryText}
+                                </div>
+                            )}
+                        </div>
+
+                        {/* ── Claims Section ─── */}
+                        <div>
+                            <h3 className="font-bold text-lg mb-4" style={{ color: '#e2e8f0' }}>
+                                🔍 Claim Analysis ({results.length} claims)
+                            </h3>
+
+                            {results.length > 0 ? (
+                                <div className="space-y-3">
+                                    {results.map((item, idx) => (
+                                        <div key={idx} className="claim-card card border rounded-xl p-4 transition-all">
+                                            <div className="flex flex-col sm:flex-row justify-between gap-3">
+                                                <p className="text-sm leading-relaxed flex-1 prose-txt">{item.claim}</p>
+                                                <VerdictBadge verdict={item.verdict} />
+                                            </div>
+
+                                            <button
+                                                onClick={() => toggleEvidence(idx)}
+                                                className="mt-3 flex items-center gap-1.5 text-xs font-semibold text-indigo-400 hover:text-indigo-300 transition"
+                                            >
+                                                <svg className={`w-3.5 h-3.5 transition-transform ${openEvidence[idx] ? 'rotate-180' : ''}`}
+                                                    fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M19 9l-7 7-7-7" />
+                                                </svg>
+                                                {openEvidence[idx] ? 'Hide' : 'Show'} Evidence ({item.evidence.length})
+                                            </button>
+
+                                            {openEvidence[idx] && (
+                                                <div className="mt-3 border-t pt-3 space-y-3 scale-in"
+                                                    style={{ borderColor: 'rgba(71,85,105,0.4)' }}>
+                                                    {item.evidence.length > 0 ? item.evidence.map((ev, ei) => (
+                                                        <div key={ei} className="surface rounded-lg p-3">
+                                                            <a href={ev.url} target="_blank" rel="noopener noreferrer"
+                                                                className="text-sm font-semibold text-indigo-400 hover:underline line-clamp-1">
+                                                                {ev.title || 'Source'}
+                                                            </a>
+                                                            {ev.url && (
+                                                                <p className="text-xs muted mt-0.5">
+                                                                    {(() => { try { return new URL(ev.url).hostname } catch (e) { return ev.url } })()}
+                                                                </p>
+                                                            )}
+                                                            <NLIBars scores={ev.scores} />
+                                                        </div>
+                                                    )) : (
+                                                        <p className="text-sm secondary">No evidence found for this claim.</p>
+                                                    )}
+                                                </div>
+                                            )}
+                                        </div>
+                                    ))}
+                                </div>
+                            ) : (
+                                <div className="card border rounded-xl p-12 text-center">
+                                    <p className="text-4xl mb-3">🔎</p>
+                                    <h4 className="font-semibold text-base" style={{ color: '#e2e8f0' }}>No Verifiable Claims Found</h4>
+                                    <p className="text-sm secondary mt-2 max-w-sm mx-auto">
+                                        The AI did not identify concrete, verifiable claims. This is common for opinion pieces or narrative articles.
+                                    </p>
+                                </div>
+                            )}
+                        </div>
+
+                        <div className="text-center pb-8">
+                            <button onClick={onReset}
+                                className="px-8 py-3 rounded-xl font-semibold text-sm bg-indigo-600 hover:bg-indigo-500 text-white transition">
+                                ← Analyze Another Article
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            );
+        }
+
+        // ─────────────────────────────────────────────
+        //  THEME TOGGLE
+        // ─────────────────────────────────────────────
+
+        function ThemeToggle({ theme, onToggle }) {
+            return (
+                <button
+                    id="theme-toggle"
+                    onClick={onToggle}
+                    className="fixed top-4 right-4 z-50 w-10 h-10 rounded-full border backdrop-blur-md flex items-center justify-center transition"
+                    style={{ borderColor: 'rgba(99,102,241,0.4)', background: 'rgba(30,41,59,0.8)' }}
+                    title="Toggle theme"
+                >
+                    {theme === 'dark' ? '🌙' : '☀️'}
+                </button>
+            );
+        }
+
+        // ─────────────────────────────────────────────
+        //  MAIN APP
+        // ─────────────────────────────────────────────
+
+        function App() {
+            const [appState, setAppState] = useState('home');
+            const [taskInput, setTaskInput] = useState(null);
+            const [resultsData, setResultsData] = useState(null);
+            const [error, setError] = useState('');
+            const [theme, setTheme] = useState('dark');
+            const pollingInterval = useRef(null);
+
+            useEffect(() => {
+                document.body.className = theme;
+            }, [theme]);
+
+            useEffect(() => () => clearInterval(pollingInterval.current), []);
+
+            const startPolling = taskId => {
+                pollingInterval.current = setInterval(async () => {
+                    try {
+                        const res = await fetch(`${API_BASE}/api/result/${taskId}`);
+                        if (!res.ok) throw new Error('Network error');
+                        const data = await res.json();
+                        if (data.status === 'SUCCESS') {
+                            clearInterval(pollingInterval.current);
+                            setResultsData(data);
+                            setAppState('results');
+                        } else if (data.status === 'FAILURE') {
+                            clearInterval(pollingInterval.current);
+                            setError(data.error || 'Analysis failed.');
+                            setAppState('error');
+                        }
+                    } catch (e) {
+                        clearInterval(pollingInterval.current);
+                        setError('Failed to fetch results. Is the backend running?');
+                        setAppState('error');
+                    }
+                }, 3000);
+            };
+
+            const handleStartAnalysis = async input => {
+                clearInterval(pollingInterval.current);
+                setAppState('loading');
+                setTaskInput(input);
+                setError('');
+
+                let endpoint, formData = new FormData();
+                if (input.type === 'url') { endpoint = `${API_BASE}/api/verify/url`; formData.append('url', input.value); }
+                if (input.type === 'file') { endpoint = `${API_BASE}/api/verify/file`; formData.append('file', input.value); }
+                if (input.type === 'text') { endpoint = `${API_BASE}/api/verify/text`; formData.append('text', input.value); }
+
+                try {
+                    const res = await fetch(endpoint, { method: 'POST', body: formData });
+                    if (!res.ok) throw new Error(`Server error ${res.status}`);
+                    const data = await res.json();
+
+                    if (data.status === 'SUCCESS') {
+                        setResultsData(data);
+                        setAppState('results');
+                    } else if (data.task_id) {
+                        startPolling(data.task_id);
+                    } else {
+                        throw new Error('Unexpected server response.');
+                    }
+                } catch (e) {
+                    setError(e.message);
+                    setAppState('error');
+                }
+            };
+
+            const handleReset = () => {
+                clearInterval(pollingInterval.current);
+                setAppState('home');
+                setResultsData(null);
+                setTaskInput(null);
+                setError('');
+            };
+
+            return (
+                <>
+                    <ThemeToggle theme={theme} onToggle={() => setTheme(t => t === 'dark' ? 'light' : 'dark')} />
+
+                    {appState === 'home' && <HomePage onStartAnalysis={handleStartAnalysis} />}
+                    {appState === 'loading' && <LoadingState input={taskInput} />}
+                    {appState === 'results' && <ResultsPage data={resultsData} onReset={handleReset} />}
+                    {appState === 'error' && (
+                        <div className="min-h-screen flex flex-col items-center justify-center text-center px-4 gap-4">
+                            <p className="text-4xl">⚠️</p>
+                            <h2 className="text-xl font-bold" style={{ color: '#f87171' }}>Analysis Failed</h2>
+                            <p className="text-sm secondary max-w-sm">{error}</p>
+                            <button onClick={handleReset}
+                                className="mt-4 px-6 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-semibold transition">
+                                Try Again
+                            </button>
+                        </div>
+                    )}
+                </>
+            );
+        }
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<App />);
+    </script>
+</body>
+
+</html>
