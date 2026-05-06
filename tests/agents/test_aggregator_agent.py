@@ -13,7 +13,7 @@ import os
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
 
 import json
-from unittest.mock import patch, MagicMock
+from unittest.mock import patch
 
 from backend.agents.aggregator_agent import (
     _doc_status,
