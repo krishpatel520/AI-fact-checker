@@ -19,9 +19,12 @@ import json
 import os
 import datetime
 import logging
+from pathlib import PurePosixPath
+from urllib.parse import urlparse
 
 from fastapi import FastAPI, Form, UploadFile, File, Depends, HTTPException, Request
 from fastapi.middleware.cors import CORSMiddleware
+from sqlalchemy import text
 from sqlalchemy.orm import Session
 
 from . import models
@@ -70,12 +73,85 @@ app.add_middleware(
     CORSMiddleware,
     allow_origins=ALLOWED_ORIGINS,
     allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
+    allow_methods=["GET", "POST", "OPTIONS"],
+    allow_headers=["Content-Type"],
 )
 
 # WebSocket router
 app.include_router(ws_router)
+
+
+# ---------------------------------------------------------------------------
+# Startup health check
+# ---------------------------------------------------------------------------
+
+@app.on_event("startup")
+async def startup_checks():
+    """Fail fast on startup if PostgreSQL or Redis are unreachable."""
+    import redis as _redis
+
+    db = SessionLocal()
+    try:
+        db.execute(text("SELECT 1"))
+    except Exception as exc:
+        raise RuntimeError(f"Database not reachable on startup: {exc}") from exc
+    finally:
+        db.close()
+
+    redis_url = os.getenv("REDIS_URL", "redis://localhost:6379/0")
+    try:
+        r = _redis.from_url(redis_url, socket_connect_timeout=3)
+        r.ping()
+        r.close()
+    except Exception as exc:
+        raise RuntimeError(f"Redis not reachable on startup: {exc}") from exc
+
+    logger.info("Startup checks passed (DB + Redis reachable).")
+
+
+# ---------------------------------------------------------------------------
+# Input validation helpers
+# ---------------------------------------------------------------------------
+
+_MAX_UPLOAD_BYTES = 50 * 1024 * 1024  # 50 MB
+
+_ALLOWED_MIME = {
+    "application/pdf",
+    "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+    "application/msword",
+    "text/plain",
+}
+
+
+def _detect_mime(data: bytes) -> str:
+    """Identify file type from magic bytes — no external library required."""
+    if data[:4] == b"%PDF":
+        return "application/pdf"
+    if data[:2] == b"PK":
+        # ZIP-based: DOCX, XLSX, PPTX — treat all as DOCX for our purposes
+        return "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+    if data[:2] == b"\xd0\xcf":
+        return "application/msword"  # OLE2 compound document (legacy .doc)
+    try:
+        data[:512].decode("utf-8")
+        return "text/plain"
+    except (UnicodeDecodeError, ValueError):
+        return "application/octet-stream"
+
+
+def _validate_url(url: str) -> None:
+    """Reject non-HTTP/S URLs to prevent SSRF via file://, ftp://, etc."""
+    try:
+        parsed = urlparse(url)
+    except Exception:
+        raise HTTPException(status_code=400, detail="Invalid URL.")
+    if parsed.scheme not in ("http", "https"):
+        raise HTTPException(
+            status_code=400,
+            detail="Only http:// and https:// URLs are supported.",
+        )
+    if not parsed.netloc:
+        raise HTTPException(status_code=400, detail="URL must include a hostname.")
 
 
 # ---------------------------------------------------------------------------
@@ -115,6 +191,8 @@ async def start_url_verification(
     immediately with status=SUCCESS. On a miss, launches the agentic
     pipeline and returns a job_id for WebSocket / polling.
     """
+    _validate_url(url)
+
     cache_ttl = datetime.timedelta(days=1)
     cached = (
         db.query(models.VerifiedArticle)
@@ -134,7 +212,13 @@ async def start_url_verification(
 async def start_file_verification(request: Request, file: UploadFile = File(...)):
     """Upload a PDF, DOCX, or plain-text file for analysis."""
     content = await file.read()
-    job_id = launch_file(content, file.filename or "upload")
+    if len(content) > _MAX_UPLOAD_BYTES:
+        raise HTTPException(status_code=413, detail="File exceeds 50 MB limit.")
+    mime = _detect_mime(content)
+    if mime not in _ALLOWED_MIME:
+        raise HTTPException(status_code=400, detail=f"Unsupported file type ({mime}).")
+    safe_name = PurePosixPath(file.filename or "upload").name  # strip any path components
+    job_id = launch_file(content, safe_name)
     return {"status": "PENDING", "job_id": job_id}
 
 

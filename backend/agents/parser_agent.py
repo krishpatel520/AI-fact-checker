@@ -15,7 +15,7 @@ from ..parser import (
 
 
 @celery.task(bind=True, queue="high", max_retries=2, default_retry_delay=10,
-             name="agents.parser_agent")
+             name="agents.parser_agent", time_limit=90, soft_time_limit=75)
 def run_parser(self, input_ref: str, input_type: str, file_content: bytes = None,
                filename: str = "") -> dict:
     """

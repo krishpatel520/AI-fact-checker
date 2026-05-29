@@ -2,6 +2,10 @@
  * LoadingState.jsx
  * ----------------
  * Animated step-tracker shown while the agentic pipeline runs.
+ *
+ * The interval advances through all steps except the last one — that final
+ * step is reserved for when the WS "done" event arrives so the animation
+ * always reflects real progress rather than overshooting.
  */
 import { useState, useEffect } from 'react'
 import { Spinner } from './ui/Spinner.jsx'
@@ -15,16 +19,24 @@ const LOADING_STEPS = [
     'Building your report…',
 ]
 
-export function LoadingState({ input }) {
+const LAST_STEP = LOADING_STEPS.length - 1
+
+export function LoadingState({ input, analysisComplete }) {
     const [step, setStep] = useState(0)
 
+    // Timer advances up to the second-to-last step only.
     useEffect(() => {
-        const t = setInterval(() => setStep(s => Math.min(s + 1, LOADING_STEPS.length - 1)), 2200)
+        const t = setInterval(() => setStep(s => Math.min(s + 1, LAST_STEP - 1)), 2200)
         return () => clearInterval(t)
     }, [])
 
+    // Jump to the final step when the backend signals completion.
+    useEffect(() => {
+        if (analysisComplete) setStep(LAST_STEP)
+    }, [analysisComplete])
+
     const label =
-        input.type === 'url'  ? (() => { try { return new URL(input.value).hostname } catch { return input.value } })() :
+        input.type === 'url'  ? (() => { try { return new URL(input.value).hostname } catch { return '(article)' } })() :
         input.type === 'file' ? input.value.name :
                                 'Pasted text'
 
@@ -38,7 +50,7 @@ export function LoadingState({ input }) {
                     <div key={i} className={`flex items-center gap-3 text-sm transition-all duration-300 ${
                         i < step ? 'opacity-40' : i === step ? 'opacity-100 step-active' : 'opacity-20'
                     }`}>
-                        <span className="text-base">{i < step ? '✓' : i === step ? '▶' : '○'}</span>
+                        <span className="text-base" aria-hidden="true">{i < step ? '✓' : i === step ? '▶' : '○'}</span>
                         <span style={{ color: i === step ? '#818cf8' : undefined }}>{s}</span>
                     </div>
                 ))}

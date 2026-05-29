@@ -122,7 +122,8 @@ def _publish_ws(job_id: str, payload: dict) -> None:
 # Celery task
 # ---------------------------------------------------------------------------
 
-@celery.task(queue="high", name="agents.aggregator_agent")
+@celery.task(queue="high", name="agents.aggregator_agent",
+             time_limit=60, soft_time_limit=50)
 def run_aggregator(
     phase2_results: list,
     url: str,
@@ -148,14 +149,28 @@ def run_aggregator(
     """
     num_claims = len(claims)
 
-    # Split results: verifier outputs come first, coverage is last
-    verifier_outputs = phase2_results[:num_claims]
-    coverage = phase2_results[num_claims] if len(phase2_results) > num_claims else []
+    # Split results: verifier outputs come first, coverage is last.
+    # Filter out any exception objects that Celery inserts when a task fails
+    # (chord_propagates_exceptions=False allows partial completion).
+    raw_verifiers = phase2_results[:num_claims]
+    verifier_outputs = [r for r in raw_verifiers if isinstance(r, dict) and "verdict" in r]
 
-    # Normalise coverage to always be a list
-    if not isinstance(coverage, list):
-        coverage = []
+    raw_coverage = phase2_results[num_claims] if len(phase2_results) > num_claims else []
+    coverage = raw_coverage if isinstance(raw_coverage, list) else []
 
+    try:
+        return _assemble_and_publish(
+            verifier_outputs, coverage, url, job_id, parser_result, source_info
+        )
+    except Exception as exc:
+        logger.error("Aggregator failed for job %s: %s", job_id, exc)
+        _update_job_status(job_id, "failed", error=str(exc))
+        raise
+
+
+def _assemble_and_publish(
+    verifier_outputs, coverage, url, job_id, parser_result, source_info
+) -> str:
     article_title = parser_result.get("title", "") or source_info.get("domain", "Unknown")
     publish_date = parser_result.get("publish_date", "")
 

@@ -34,9 +34,12 @@ function ThemeToggle({ theme, onToggle }) {
 // ── App ─────────────────────────────────────────────────────────────────────
 export default function App() {
     const [theme, setTheme] = useState('dark')
-    const { appState, taskInput, resultsData, error, handleStart, handleReset } = useAnalysis()
+    const { appState, taskInput, resultsData, error, analysisComplete, handleStart, handleReset } = useAnalysis()
 
-    useEffect(() => { document.body.className = theme }, [theme])
+    useEffect(() => {
+        document.body.classList.toggle('dark', theme === 'dark')
+        document.body.classList.toggle('light', theme === 'light')
+    }, [theme])
 
     return (
         <>
@@ -47,7 +50,7 @@ export default function App() {
             )}
 
             {appState === 'loading' && (
-                <LoadingState input={taskInput} />
+                <LoadingState input={taskInput} analysisComplete={analysisComplete} />
             )}
 
             {appState === 'results' && (

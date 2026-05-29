@@ -47,11 +47,11 @@ logger = logging.getLogger(__name__)
 # ---------------------------------------------------------------------------
 
 def _create_job(job_id: str, input_type: str, input_ref: str) -> None:
-    try:
-        from ..database import SessionLocal
-        from .. import models
+    from ..database import SessionLocal
+    from .. import models
 
-        db = SessionLocal()
+    db = SessionLocal()
+    try:
         db.add(
             models.AnalysisJob(
                 id=job_id,
@@ -61,31 +61,35 @@ def _create_job(job_id: str, input_type: str, input_ref: str) -> None:
             )
         )
         db.commit()
-        db.close()
     except Exception as exc:
         logger.error("Failed to create AnalysisJob: %s", exc)
+        raise   # propagate — callers should not return a phantom job_id
+    finally:
+        db.close()
 
 
 def _set_job_running(job_id: str) -> None:
-    try:
-        from ..database import SessionLocal
-        from .. import models
+    from ..database import SessionLocal
+    from .. import models
 
-        db = SessionLocal()
+    db = SessionLocal()
+    try:
         job = db.query(models.AnalysisJob).filter(models.AnalysisJob.id == job_id).first()
         if job:
             job.status = "running"
             db.commit()
-        db.close()
     except Exception as exc:
         logger.warning("Could not set job running: %s", exc)
+    finally:
+        db.close()
 
 
 # ---------------------------------------------------------------------------
 # Phase 2 callback (intermediate step after Phase 1 chord completes)
 # ---------------------------------------------------------------------------
 
-@celery.task(queue="high", name="agents.phase2_callback")
+@celery.task(queue="high", name="agents.phase2_callback",
+             time_limit=60, soft_time_limit=50)
 def phase2_callback(phase1_results: list, url: str, job_id: str,
                     input_type: str, file_content=None, filename: str = "") -> None:
     """

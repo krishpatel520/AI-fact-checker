@@ -7,7 +7,8 @@ export function CredibilityRing({ score }) {
     const label  = score >= 70 ? 'High'    : score >= 40 ? 'Moderate' : 'Low'
     return (
         <div className="flex flex-col items-center">
-            <svg width="110" height="110" viewBox="0 0 110 110" className="ring-svg">
+            <svg width="110" height="110" viewBox="0 0 110 110" className="ring-svg"
+            role="img" aria-label={`Credibility score: ${score} out of 100 — ${label}`}>
                 <circle cx="55" cy="55" r={r} className="ring-bg" />
                 <circle cx="55" cy="55" r={r} className="ring-fill"
                     stroke={color} strokeDasharray={circ} strokeDashoffset={offset} />

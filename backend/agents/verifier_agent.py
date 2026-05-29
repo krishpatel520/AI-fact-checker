@@ -120,7 +120,8 @@ def _heuristic_nli(claim: str, evidence: str) -> dict[str, Any]:
 # Celery task
 # ---------------------------------------------------------------------------
 
-@celery.task(queue="default", name="agents.verifier_agent", max_retries=1)
+@celery.task(queue="default", name="agents.verifier_agent",
+             max_retries=2, time_limit=150, soft_time_limit=130)
 def run_verifier(claim: str) -> dict:
     """
     Verify a single claim. Returns a verdict dict ready for the aggregator.

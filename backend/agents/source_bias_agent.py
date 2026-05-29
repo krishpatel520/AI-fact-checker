@@ -10,7 +10,8 @@ from ..celery_app import celery
 from ..source_analyzer import get_source_analysis
 
 
-@celery.task(queue="high", name="agents.source_bias_agent")
+@celery.task(queue="high", name="agents.source_bias_agent",
+             time_limit=10, soft_time_limit=8)
 def run_source_bias(url: str) -> dict:
     """
     Look up media bias and credibility data for the given URL.

@@ -27,7 +27,6 @@ celery = Celery(
         "backend.agents.parser_agent",
         "backend.agents.source_bias_agent",
         "backend.agents.coverage_agent",
-        "backend.agents.claims_agent",
         "backend.agents.verifier_agent",
         "backend.agents.aggregator_agent",
         "backend.agents.orchestrator",
@@ -49,7 +48,6 @@ celery.conf.update(
         "agents.aggregator_agent":  {"queue": "high"},
         "agents.coverage_agent":    {"queue": "default"},
         "agents.verifier_agent":    {"queue": "default"},
-        "agents.claims_agent":      {"queue": "default"},
         # Legacy tasks keep the default queue
         "backend.worker.analyze_url_task":  {"queue": "high"},
         "backend.worker.analyze_file_task": {"queue": "default"},
@@ -60,4 +58,7 @@ celery.conf.update(
     worker_prefetch_multiplier=1,
     # Result TTL — keep results in Redis for 24 hours
     result_expires=86400,
+    # Allow chords to complete with partial results when individual tasks fail
+    # rather than propagating the first exception and aborting the whole chord.
+    chord_propagates_exceptions=False,
 )

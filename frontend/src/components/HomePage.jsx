@@ -16,7 +16,7 @@ export function HomePage({ onStartAnalysis }) {
     const valid =
         (tab === 'url'  && url.trim()) ||
         (tab === 'file' && file) ||
-        (tab === 'text' && text.trim().length > 50)
+        (tab === 'text' && text.trim().length > 200)
 
     const submit = () => {
         if (!valid) return
@@ -28,8 +28,10 @@ export function HomePage({ onStartAnalysis }) {
 
     const Tab = ({ id, icon, label }) => (
         <button id={`tab-${id}`} onClick={() => setTab(id)}
+            aria-pressed={tab === id}
+            aria-label={label}
             className={`flex items-center gap-1.5 px-4 py-2 text-sm font-semibold rounded-lg transition-all ${tab === id ? 'tab-active' : 'tab-idle'}`}>
-            {icon} {label}
+            <span aria-hidden="true">{icon}</span> {label}
         </button>
     )
 
@@ -110,11 +112,12 @@ export function HomePage({ onStartAnalysis }) {
                     {/* Text */}
                     {tab === 'text' && (
                         <div className="scale-in">
+                            <label htmlFor="text-input" className="sr-only">Article text</label>
                             <textarea id="text-input" value={text} onChange={e => setText(e.target.value)}
-                                placeholder="Paste the full article text here (minimum 50 characters)..."
+                                placeholder="Paste the full article text here (minimum 200 characters)…"
                                 rows={7}
                                 className="inp w-full rounded-xl px-4 py-3.5 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 transition resize-none" />
-                            <p className="text-xs muted mt-1.5 pl-1">{text.length} characters</p>
+                            <p className="text-xs muted mt-1.5 pl-1">{text.length} / 200 characters minimum</p>
                         </div>
                     )}
 
@@ -122,7 +125,7 @@ export function HomePage({ onStartAnalysis }) {
                         className="mt-5 w-full py-4 rounded-xl text-base font-bold text-white transition-all
                              bg-indigo-600 hover:bg-indigo-500 disabled:opacity-40 disabled:cursor-not-allowed
                              hover:shadow-lg hover:shadow-indigo-500/25 active:scale-[.98]">
-                        Disseminate →
+                        Analyze →
                     </button>
                 </div>
 

@@ -6,7 +6,7 @@
  *   2. Connect via WebSocket for instant push delivery
  *   3. Fall back to polling /api/job/{job_id} if WS fails or times out
  *
- * Returns: { appState, taskInput, resultsData, error, handleStart, handleReset }
+ * Returns: { appState, taskInput, resultsData, error, analysisComplete, handleStart, handleReset }
  */
 
 import { useState, useRef, useEffect } from 'react'
@@ -16,10 +16,11 @@ const WS_BASE = import.meta.env.VITE_WS_URL ??
     (window.location.protocol === 'https:' ? 'wss://' : 'ws://') + window.location.host
 
 export function useAnalysis() {
-    const [appState, setAppState]     = useState('home')      // home | loading | results | error
-    const [taskInput, setTaskInput]   = useState(null)
-    const [resultsData, setResultsData] = useState(null)
-    const [error, setError]           = useState('')
+    const [appState, setAppState]         = useState('home')      // home | loading | results | error
+    const [taskInput, setTaskInput]       = useState(null)
+    const [resultsData, setResultsData]   = useState(null)
+    const [error, setError]               = useState('')
+    const [analysisComplete, setAnalysisComplete] = useState(false)
     const pollRef = useRef(null)
     const wsRef   = useRef(null)
 
@@ -29,18 +30,42 @@ export function useAnalysis() {
         wsRef.current?.close()
     }, [])
 
+    // ── Helpers ───────────────────────────────────────────────────────────────
+
+    const _finishWithResult = (result) => {
+        setAnalysisComplete(true)
+        // Small delay so the LoadingState animation can show the final step.
+        setTimeout(() => {
+            setResultsData(result)
+            setAppState('results')
+        }, 400)
+    }
+
+    // Parse server error bodies so users see actionable messages.
+    const _fetchErrorMessage = async (res) => {
+        try {
+            const ct = res.headers.get('content-type') || ''
+            if (ct.includes('application/json')) {
+                const body = await res.json()
+                return body.detail || body.error || `Server error ${res.status}`
+            }
+        } catch {
+            // ignore parse failure
+        }
+        return `Server error ${res.status}`
+    }
+
     // ── Polling fallback ──────────────────────────────────────────────────────
     const startJobPolling = (jobId) => {
         pollRef.current = setInterval(async () => {
             try {
                 const res = await fetch(`${API_BASE}/api/job/${jobId}`)
-                if (!res.ok) throw new Error('Network error')
+                if (!res.ok) throw new Error(await _fetchErrorMessage(res))
                 const data = await res.json()
 
                 if (data.status === 'done') {
                     clearInterval(pollRef.current)
-                    setResultsData({ status: 'SUCCESS', result: data.result })
-                    setAppState('results')
+                    _finishWithResult({ status: 'SUCCESS', result: data.result })
                 } else if (data.status === 'failed') {
                     clearInterval(pollRef.current)
                     setError(data.error || 'Analysis failed.')
@@ -49,7 +74,7 @@ export function useAnalysis() {
                 // pending | running → keep polling
             } catch (e) {
                 clearInterval(pollRef.current)
-                setError('Could not reach the server. Is the backend running?')
+                setError(e.message || 'Could not reach the server. Is the backend running?')
                 setAppState('error')
             }
         }, 3000)
@@ -62,12 +87,18 @@ export function useAnalysis() {
             wsRef.current = ws
 
             ws.onmessage = (evt) => {
-                const msg = JSON.parse(evt.data)
+                let msg
+                try {
+                    msg = JSON.parse(evt.data)
+                } catch {
+                    return  // ignore unparseable frames
+                }
+                if (!msg || typeof msg.status_event !== 'string') return
+
                 if (msg.status_event === 'done') {
                     clearInterval(pollRef.current)
-                    const { status_event, job_id, ...result } = msg
-                    setResultsData({ status: 'SUCCESS', result })
-                    setAppState('results')
+                    const { status_event, job_id, ...result } = msg  // eslint-disable-line no-unused-vars
+                    _finishWithResult({ status: 'SUCCESS', result })
                 } else if (msg.status_event === 'timeout') {
                     startJobPolling(jobId)
                 } else if (msg.status_event === 'error') {
@@ -88,6 +119,7 @@ export function useAnalysis() {
         setAppState('loading')
         setTaskInput(input)
         setError('')
+        setAnalysisComplete(false)
 
         const endpoint =
             input.type === 'url'  ? `${API_BASE}/api/verify/url`  :
@@ -100,13 +132,12 @@ export function useAnalysis() {
 
         try {
             const res = await fetch(endpoint, { method: 'POST', body: formData })
-            if (!res.ok) throw new Error(`Server error ${res.status}`)
+            if (!res.ok) throw new Error(await _fetchErrorMessage(res))
             const data = await res.json()
 
             if (data.status === 'SUCCESS') {
                 // Cache hit — instant result
-                setResultsData(data)
-                setAppState('results')
+                _finishWithResult(data)
             } else if (data.job_id) {
                 connectWebSocket(data.job_id)
             } else {
@@ -126,7 +157,8 @@ export function useAnalysis() {
         setResultsData(null)
         setTaskInput(null)
         setError('')
+        setAnalysisComplete(false)
     }
 
-    return { appState, taskInput, resultsData, error, handleStart, handleReset }
+    return { appState, taskInput, resultsData, error, analysisComplete, handleStart, handleReset }
 }

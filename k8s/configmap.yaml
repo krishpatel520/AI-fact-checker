@@ -9,7 +9,7 @@ data:
   OLLAMA_MODEL: "llama3.1:8b"
   OLLAMA_TIMEOUT_SECONDS: "45"
   ALLOWED_ORIGINS: "https://your-frontend-domain.com"
-  DATABASE_URL: "postgresql://veritas:$(POSTGRES_PASSWORD)@postgres:5432/veritas"
+  # DATABASE_URL is a secret — set via veritas-secrets, not here.
   LOG_LEVEL: "info"
   UVICORN_WORKERS: "2"
   CELERY_QUEUES: "high,default,low"

@@ -30,8 +30,10 @@ if not DATABASE_URL.startswith("postgresql"):
 engine = create_engine(
     DATABASE_URL,
     pool_pre_ping=True,   # detect stale connections
-    pool_size=5,
-    max_overflow=10,
+    pool_size=10,
+    max_overflow=20,
+    pool_recycle=3600,    # recycle connections after 1 hour (avoid idle timeouts)
+    pool_timeout=30,      # raise after 30s if no connection slot is available
 )
 
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)

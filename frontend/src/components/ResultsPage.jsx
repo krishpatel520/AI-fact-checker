@@ -33,7 +33,7 @@ export function ResultsPage({ data, onReset }) {
 
     const generateSummary = () => {
         const raw   = (data.result.text || '').replace(/\s+/g, ' ').trim()
-        let sents   = raw.split(/(?<=[.!?])\s+/).filter(s => s.length > 40).slice(0, 5)
+        let sents   = raw.replace(/([.!?])\s+/g, '$1\n').split('\n').filter(s => s.length > 40).slice(0, 5)
         if (!sents.length && results?.length)
             sents = results.map(r => r.claim).filter(Boolean).slice(0, 5)
         setSummaryText(sents.length ? sents.join(' ') : 'No summary available.')
@@ -98,6 +98,7 @@ export function ResultsPage({ data, onReset }) {
                                 {['All', 'Left', 'Center', 'Right'].map(f => (
                                     <button key={f} id={`filter-${f.toLowerCase()}`}
                                         onClick={() => setBiasFilter(f)}
+                                        aria-pressed={biasFilter === f}
                                         className={`pill border text-xs font-semibold px-3 py-1 rounded-full transition ${biasFilter === f ? 'pill-active' : ''}`}>
                                         {f}
                                     </button>
@@ -174,6 +175,8 @@ export function ResultsPage({ data, onReset }) {
                                         <VerdictBadge verdict={item.verdict} />
                                     </div>
                                     <button id={`evidence-toggle-${idx}`} onClick={() => toggleEvidence(idx)}
+                                        aria-expanded={!!openEvidence[idx]}
+                                        aria-controls={`evidence-panel-${idx}`}
                                         className="mt-3 flex items-center gap-1.5 text-xs font-semibold text-indigo-400 hover:text-indigo-300 transition">
                                         <svg className={`w-3.5 h-3.5 transition-transform ${openEvidence[idx] ? 'rotate-180' : ''}`}
                                             fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -182,7 +185,8 @@ export function ResultsPage({ data, onReset }) {
                                         {openEvidence[idx] ? 'Hide' : 'Show'} Evidence ({item.evidence.length})
                                     </button>
                                     {openEvidence[idx] && (
-                                        <div className="mt-3 border-t pt-3 space-y-3 scale-in"
+                                        <div id={`evidence-panel-${idx}`}
+                                            className="mt-3 border-t pt-3 space-y-3 scale-in"
                                             style={{ borderColor: 'rgba(71,85,105,0.4)' }}>
                                             {item.evidence.length > 0
                                                 ? item.evidence.map((ev, ei) => <EvidenceItem key={ei} ev={ev} index={ei} />)

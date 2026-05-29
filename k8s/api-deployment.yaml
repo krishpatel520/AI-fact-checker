@@ -20,10 +20,18 @@ spec:
       labels:
         app: veritas-api
     spec:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+        fsGroup: 1000
       containers:
         - name: api
           image: ghcr.io/YOUR_ORG/veritas:latest   # update with your registry
           imagePullPolicy: Always
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop: ["ALL"]
           ports:
             - containerPort: 8000
           env:
@@ -34,6 +42,21 @@ spec:
                 secretKeyRef:
                   name: veritas-secrets
                   key: SERPER_API_KEY
+            - name: DATABASE_URL
+              valueFrom:
+                secretKeyRef:
+                  name: veritas-secrets
+                  key: DATABASE_URL
+            - name: FLOWER_USER
+              valueFrom:
+                secretKeyRef:
+                  name: veritas-secrets
+                  key: FLOWER_USER
+            - name: FLOWER_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: veritas-secrets
+                  key: FLOWER_PASSWORD
           envFrom:
             - configMapRef:
                 name: veritas-config

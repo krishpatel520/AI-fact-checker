@@ -10,7 +10,9 @@ from ..celery_app import celery
 from ..news_aggregator import find_related_coverage
 
 
-@celery.task(queue="default", name="agents.coverage_agent")
+@celery.task(queue="default", name="agents.coverage_agent",
+             time_limit=45, soft_time_limit=35,
+             autoretry_for=(Exception,), max_retries=2, retry_backoff=True)
 def run_coverage(article_title: str, original_url: str, top_n: int = 10) -> list:
     """
     Search for related articles covering the same news story.

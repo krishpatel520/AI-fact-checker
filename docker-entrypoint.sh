@@ -30,10 +30,14 @@ case "$MODE" in
     ;;
 
   flower)
+    if [ -z "$FLOWER_USER" ] || [ -z "$FLOWER_PASSWORD" ]; then
+      echo "❌ FLOWER_USER and FLOWER_PASSWORD must be set — refusing to start with default credentials." >&2
+      exit 1
+    fi
     echo "▶  Starting Flower (Celery monitoring)..."
     exec celery -A backend.celery_app.celery flower \
       --port=5555 \
-      --basic_auth="${FLOWER_USER:-admin}:${FLOWER_PASSWORD:-veritas}"
+      --basic_auth="${FLOWER_USER}:${FLOWER_PASSWORD}"
     ;;
 
   *)
