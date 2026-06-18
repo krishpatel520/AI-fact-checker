@@ -191,6 +191,15 @@ def _assemble_and_publish(
     if url:
         _write_to_db(url, article_title, json_str)
 
+    # Cache result in Redis for ALL input types so polling endpoint can serve it.
+    # TTL matches Celery result_expires (24 h).
+    try:
+        r = redis.from_url(REDIS_URL)
+        r.setex(f"result:{job_id}", 86400, json_str)
+        r.close()
+    except Exception as exc:
+        logger.warning("Redis result cache write failed for job %s: %s", job_id, exc)
+
     # Update job record
     _update_job_status(job_id, "done")
 

@@ -257,7 +257,8 @@ async def get_job_status(request: Request, job_id: str, db: Session = Depends(ge
     if job.status == "failed":
         return {"status": "failed", "error": job.error}
 
-    # Done — retrieve the cached result
+    # Done — retrieve the cached result.
+    # For URL inputs: primary store is the verified_articles DB table.
     if job.input_type == "url" and job.input_ref:
         cached = (
             db.query(models.VerifiedArticle)
@@ -266,6 +267,18 @@ async def get_job_status(request: Request, job_id: str, db: Session = Depends(ge
         )
         if cached:
             return {"status": "done", "result": json.loads(cached.analysis_json)}
+
+    # For all input types (including URL fallback): read from Redis result cache.
+    import redis as _redis
+    redis_url = os.getenv("REDIS_URL", "redis://localhost:6379/0")
+    try:
+        r = _redis.from_url(redis_url)
+        raw = r.get(f"result:{job_id}")
+        r.close()
+        if raw:
+            return {"status": "done", "result": json.loads(raw)}
+    except Exception as exc:
+        logger.warning("Redis result cache read failed for job %s: %s", job_id, exc)
 
     return {"status": "done", "result": None}
 

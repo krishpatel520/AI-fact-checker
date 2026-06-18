@@ -46,10 +46,16 @@ def run_parser(self, input_ref: str, input_type: str, file_content: bytes = None
                 result = {"text": raw.decode(errors="ignore"), "title": filename, "publish_date": ""}
 
         elif input_type == "text":
-            # input_ref contains the raw pasted text
-            first_sentence = input_ref.strip().split(".")[0][:120]
+            # Full text is passed as UTF-8 bytes via file_content.
+            # input_ref holds only the first 200 chars (excerpt for the DB record).
+            if file_content:
+                raw_bytes = bytes(file_content) if isinstance(file_content, list) else file_content
+                full_text = raw_bytes.decode("utf-8", errors="replace")
+            else:
+                full_text = input_ref  # fallback for jobs submitted before this fix
+            first_sentence = full_text.strip().split(".")[0][:120]
             result = {
-                "text": input_ref,
+                "text": full_text,
                 "title": first_sentence or "Pasted Text",
                 "publish_date": "",
             }

@@ -169,4 +169,7 @@ def launch_file(content: bytes, filename: str) -> str:
 
 def launch_text(text: str) -> str:
     """Start analysis for pasted plain text. Returns job_id."""
-    return _launch(text[:200], "text", None, "")
+    # input_ref stores only a short excerpt for the DB record.
+    # The full text is serialised as UTF-8 bytes via file_content so the
+    # parser agent receives the complete article rather than just 200 chars.
+    return _launch(text[:200], "text", list(text.encode("utf-8")), "")
